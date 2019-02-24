@@ -16,12 +16,7 @@ namespace InstituteOfFineArts.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<InstituteOfFineArtsContext>(options =>
-                    options.UseSqlServer(
-                        context.Configuration.GetConnectionString("InstituteOfFineArtsContextConnection")));
-
-                services.AddDefaultIdentity<CustomUser>()
-                    .AddEntityFrameworkStores<InstituteOfFineArtsContext>();
+                
             });
         }
     }
