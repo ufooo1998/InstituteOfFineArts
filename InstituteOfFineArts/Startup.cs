@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InstituteOfFineArts.Areas.Identity.Data;
+using InstituteOfFineArts.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,8 +35,19 @@ namespace InstituteOfFineArts
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDbContext<InstituteOfFineArtsContext>(options =>
+               options.UseSqlServer(
+                   Configuration.GetConnectionString("InstituteOfFineArtsContextConnection")));
+
+            services.AddIdentity<CustomUser, IdentityRole>()
+                        .AddEntityFrameworkStores<InstituteOfFineArtsContext>()
+                            .AddDefaultUI()
+                                .AddDefaultTokenProviders();
+
+            services.AddDefaultIdentity<CustomUser>()
+                .AddEntityFrameworkStores<InstituteOfFineArtsContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,8 +65,9 @@ namespace InstituteOfFineArts
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
-
+            app.UseMvc();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
