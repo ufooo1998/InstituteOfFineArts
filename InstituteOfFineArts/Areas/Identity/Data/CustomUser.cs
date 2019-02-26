@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using InstituteOfFineArts.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace InstituteOfFineArts.Areas.Identity.Data
@@ -23,7 +24,8 @@ namespace InstituteOfFineArts.Areas.Identity.Data
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public AccountStatus Status { get; set; }
-
+        public List<Competition> Competitions { get; set; }
+        public List<Post> Posts { get; set; }
     }
 
     public enum AccountStatus
