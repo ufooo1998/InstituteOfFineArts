@@ -46,8 +46,6 @@ namespace InstituteOfFineArts
                             .AddDefaultUI()
                                 .AddDefaultTokenProviders();
 
-            services.AddDefaultIdentity<CustomUser>()
-                .AddEntityFrameworkStores<InstituteOfFineArtsContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,14 +4,16 @@ using InstituteOfFineArts.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InstituteOfFineArts.Migrations
 {
     [DbContext(typeof(InstituteOfFineArtsContext))]
-    partial class InstituteOfFineArtsContextModelSnapshot : ModelSnapshot
+    [Migration("20190225102228_AddMoreFeildToUser")]
+    partial class AddMoreFeildToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
