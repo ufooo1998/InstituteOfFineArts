@@ -6,6 +6,7 @@ using InstituteOfFineArts.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using InstituteOfFineArts.Models;
 
 namespace InstituteOfFineArts.Models
 {
@@ -23,5 +24,11 @@ namespace InstituteOfFineArts.Models
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<InstituteOfFineArts.Models.Competition> Competition { get; set; }
+
+        public DbSet<InstituteOfFineArts.Models.Post> Post { get; set; }
+
+        public DbSet<InstituteOfFineArts.Models.CompetitionPost> CompetitionPost { get; set; }
     }
 }
