@@ -37,6 +37,8 @@ namespace InstituteOfFineArts
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddMvc();
+
             services.AddDbContext<InstituteOfFineArtsContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("InstituteOfFineArtsContextConnection")));
@@ -76,6 +78,7 @@ namespace InstituteOfFineArts
             app.UseAuthentication();
             app.UseCookiePolicy();
             app.UseMvc();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
