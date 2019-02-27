@@ -1,6 +1,7 @@
 ﻿using InstituteOfFineArts.Areas.Identity.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,29 +11,15 @@ namespace InstituteOfFineArts.Models
     {
         public Competition()
         {
-            this.CreatedAt = DateTime.Now;
-            this.UpdatedAt = DateTime.Now;
-            this.AwardDate = this.EndDate.AddDays(2);
-            if (this.EndDate < DateTime.Now)
-            {
-                this.Status = CompetitonStatus.Ended;
-            }
-
-            if (this.StartDate < DateTime.Now && DateTime.Now < this.EndDate)
-            {
-                this.Status = CompetitonStatus.During;
-            }
-
-            if (this.StartDate > DateTime.Now)
-            {
-                this.Status = CompetitonStatus.InComming;
-            }
         }
         public int ID { get; set; }
         public string CompetitionName { get; set; }
         public string Decription { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime StartDate { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime EndDate { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime AwardDate { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

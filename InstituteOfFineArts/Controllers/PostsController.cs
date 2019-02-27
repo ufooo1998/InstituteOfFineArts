@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,9 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using InstituteOfFineArts.Models;
 using InstituteOfFineArts.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InstituteOfFineArts.Controllers
 {
+    [Authorize(Roles = "Student")]
     public class PostsController : Controller
     {
         private readonly InstituteOfFineArtsContext _context;
@@ -51,7 +54,6 @@ namespace InstituteOfFineArts.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Name");
             return View();
         }
 
@@ -64,11 +66,18 @@ namespace InstituteOfFineArts.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await GetCurrentUserAsync();
+                var currentCompetition = _context.Competition.Where(c=>c.Status == CompetitonStatus.During).Single();
+
+                post.CreatedAt = DateTime.Now;
+                post.Status = PostStatus.Activate;
+                post.UserID = user.Id;
                 _context.Add(post);
+                _context.CompetitionPost.Add(new CompetitionPost { CompetitionID = currentCompetition.ID, PostID = post.ID });
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", post.UserID);
+            ViewData["UserID"] = new SelectList(_context.Users, "Id", "UserName", post.UserID);
             return View(post);
         }
 
@@ -159,5 +168,7 @@ namespace InstituteOfFineArts.Controllers
         {
             return _context.Post.Any(e => e.ID == id);
         }
+        // Get current user logged in
+        private Task<CustomUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }
