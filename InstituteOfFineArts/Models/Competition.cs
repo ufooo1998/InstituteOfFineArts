@@ -11,6 +11,7 @@ namespace InstituteOfFineArts.Models
     {
         public Competition()
         {
+            checkday();
         }
         public int ID { get; set; }
         public string CompetitionName { get; set; }
@@ -27,9 +28,27 @@ namespace InstituteOfFineArts.Models
         public string UserID { get; set; }
         public CustomUser User { get; set; }
         public List<CompetitionPost> CompetitionPosts { get; set; }
-    }
 
-    public enum CompetitonStatus
+        public void checkday()
+        {
+            if(this.EndDate < DateTime.Now)
+            {
+                this.Status = CompetitonStatus.Ended;
+            }
+            else
+            {
+                this.Status = CompetitonStatus.InComming;
+            }
+            if(this.StartDate < DateTime.Now && this.EndDate > DateTime.Now)
+            {
+                this.Status = CompetitonStatus.During;
+            }
+
+        }
+    }
+        
+
+        public enum CompetitonStatus
     {
         Ended = 0,
         During = 1,
