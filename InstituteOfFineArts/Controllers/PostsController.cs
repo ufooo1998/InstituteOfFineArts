@@ -10,10 +10,12 @@ using InstituteOfFineArts.Models;
 using InstituteOfFineArts.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace InstituteOfFineArts.Controllers
 {
-    [Authorize(Roles = "Student")]
+    //[Authorize(Roles = "Student")]
     public class PostsController : Controller
     {
         private readonly InstituteOfFineArtsContext _context;
@@ -62,12 +64,18 @@ namespace InstituteOfFineArts.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,PostName,Decription,Price,CreatedAt,UpdatedAt,Status,UserID")] Post post)
+        public async Task<IActionResult> Create([Bind("ID,PostName,Decription,Price,CreatedAt,UpdatedAt,Status,UserID")] Post post, IFormFile Image)
         {
             if (ModelState.IsValid)
             {
                 var user = await GetCurrentUserAsync();
                 var currentCompetition = _context.Competition.Where(c=>c.Status == CompetitonStatus.During).Single();
+
+                using (var ms = new MemoryStream())
+                {
+                    Image.CopyTo(ms);
+                    post.Image = ms.ToArray();
+                }
 
                 post.CreatedAt = DateTime.Now;
                 post.Status = PostStatus.Activate;

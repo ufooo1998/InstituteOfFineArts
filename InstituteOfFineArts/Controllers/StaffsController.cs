@@ -45,6 +45,10 @@ namespace InstituteOfFineArts.Controllers
                 return NotFound();
             }
 
+            // Get list post of competition
+            var competitionPosts = _context.CompetitionPost.Where(c => c.CompetitionID == id).Include(c => c.Post).ThenInclude(c => c.User).ToList();
+            ViewData["PostList"] = competitionPosts;
+
             return View(competition);
         }
 
@@ -174,5 +178,41 @@ namespace InstituteOfFineArts.Controllers
         {
             return _context.Competition.Any(e => e.ID == id);
         }
+
+        public async Task<IActionResult> DetailsStudent(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var accountDetail = await _context.Users.FindAsync(id);
+            var accountRole = await _userManager.GetRolesAsync(accountDetail);
+            ViewData["AccountRole"] = accountRole.Count;
+
+            if (accountDetail == null)
+            {
+                return NotFound();
+            }
+            return View(accountDetail);
+        }
+        public async Task<IActionResult> DetailsPost(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var post = await _context.Post
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            return View(post);
+        }
+        
     }
 }
