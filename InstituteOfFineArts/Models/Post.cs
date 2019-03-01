@@ -10,6 +10,7 @@ namespace InstituteOfFineArts.Models
     {
         public int ID { get; set; }
         public string PostName { get; set; }
+        public byte[] Image { get; set; }
         public string Decription { get; set; }
         public int Price { get; set; }
         public DateTime CreatedAt { get; set; }
