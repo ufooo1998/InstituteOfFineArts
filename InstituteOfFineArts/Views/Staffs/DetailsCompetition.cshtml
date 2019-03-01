@@ -67,6 +67,27 @@
     </dl>
 </div>
 <div>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Post Name</td>
+                <td>Author</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in (List<CompetitionPost>)ViewData["PostList"])
+                {
+                    <tr>
+                        <td><a asp-action="DetailsPost" asp-route-id="@item.Post.ID">@item.Post.PostName</a></td>
+                        <td><a asp-action="DetailsStudent" asp-route-id="@item.Post.User.Id">@item.Post.User.UserName</a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div>
     <a asp-action="EditCompetition" asp-route-id="@Model.ID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
