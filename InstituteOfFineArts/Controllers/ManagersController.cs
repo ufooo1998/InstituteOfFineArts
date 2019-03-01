@@ -33,23 +33,23 @@ namespace InstituteOfFineArts.Controllers
 
             return View();
         }
-        public async Task<IActionResult> Edit(string id, string URL)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(string id, string URL)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+        //    var user = await _context.Users.FindAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var currentRole = _context.UserRoles.Where(c => c.UserId == id).Single();
-            ViewData["Role"] = new SelectList(_context.Roles, "Id", "Name", currentRole.RoleId);
-            return View(user);
-        }
+        //    var currentRole = _context.UserRoles.Where(c => c.UserId == id).Single();
+        //    ViewData["Role"] = new SelectList(_context.Roles, "Id", "Name", currentRole.RoleId);
+        //    return View(user);
+        //}
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -70,24 +70,24 @@ namespace InstituteOfFineArts.Controllers
         // Do edit task
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, CustomUser user)
-        {
-            if (id != user.Id)
-            {
-                return NotFound();
-            }
-            var existedit = _userManager.Users.SingleOrDefault(u=>u.Id == user.Id);
-            if(existedit == null)
-            {
-                return NotFound();
-            }
-            existedit.PhoneNumber = user.PhoneNumber;
-            existedit.DateOfBirth = user.DateOfBirth;
-            existedit.Address = user.Address;
-            _context.Users.Update(existedit);
-            _context.SaveChanges();
-            return new JsonResult(user);
-        }
+        //public async Task<IActionResult> Edit(string id, CustomUser user)
+        //{
+        //    if (id != user.Id)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var existedit = _userManager.Users.SingleOrDefault(u=>u.Id == user.Id);
+        //    if(existedit == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    existedit.PhoneNumber = user.PhoneNumber;
+        //    existedit.DateOfBirth = user.DateOfBirth;
+        //    existedit.Address = user.Address;
+        //    _context.Users.Update(existedit);
+        //    _context.SaveChanges();
+        //    return new JsonResult(user);
+        //}
 
         public async Task<IActionResult> IndexCompe()
         {
