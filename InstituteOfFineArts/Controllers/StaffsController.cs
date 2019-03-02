@@ -26,6 +26,12 @@ namespace InstituteOfFineArts.Controllers
             var instituteOfFineArtsContext = _context.Competition.Include(c => c.User);
             return View(await instituteOfFineArtsContext.ToListAsync());
         }
+        public async Task<IActionResult> CompetitionList()
+        {
+            var instituteOfFineArtsContext = _context.Competition.Include(c => c.User);
+            return View(await instituteOfFineArtsContext.ToListAsync());
+        }
+
 
         // GET: Competitions/Details/5
         public async Task<IActionResult> DetailsCompetition(int? id)

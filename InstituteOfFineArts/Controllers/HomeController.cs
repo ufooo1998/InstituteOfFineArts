@@ -17,15 +17,6 @@ namespace InstituteOfFineArts.Controllers
 
         public IActionResult Competition()
         {
-            //ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            //ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
@@ -33,7 +24,11 @@ namespace InstituteOfFineArts.Controllers
         {
             return View();
         }
-        public IActionResult Guide()
+         public IActionResult Guide()
+        {
+            return View();
+        }
+        public IActionResult Contact()
         {
             return View();
         }

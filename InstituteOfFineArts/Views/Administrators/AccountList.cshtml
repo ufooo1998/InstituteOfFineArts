@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewData["Title"] = "Account List";
+    var admins = ViewData["AdminList"] as List<InstituteOfFineArts.Areas.Identity.Data.CustomUser>;
+    var manager = ViewData["ManagerList"] as List<InstituteOfFineArts.Areas.Identity.Data.CustomUser>;
+    var staff = ViewData["StaffList"] as List<InstituteOfFineArts.Areas.Identity.Data.CustomUser>;
+    var student = ViewData["StudentList"] as List<InstituteOfFineArts.Areas.Identity.Data.CustomUser>;
+}
+
+@{
+    if (@TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Successed!</strong> @TempData["Success"]
+        </div>
+    }
+}
+
+<a asp-action="Create">Create Account</a>
+
+<hr />
+<h4>Administrators</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th width="500px">User Name</th>
+            <th>Option</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in admins)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Managers</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th width="500px">User Name</th>
+            <th>Option</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in manager)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Staffs</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th width="500px">User Name</th>
+            <th>Option</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in staff)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Students</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th width="500px">User Name</th>
+            <th>Option</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in student)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

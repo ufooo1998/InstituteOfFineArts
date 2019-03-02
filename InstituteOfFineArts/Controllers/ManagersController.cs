@@ -23,6 +23,10 @@ namespace InstituteOfFineArts.Controllers
 
         public async Task<IActionResult> Index()
         {
+            return View();
+        }
+        public async Task<IActionResult> AccountList()
+        {
             
             var staffList = await _userManager.GetUsersInRoleAsync("Staff");
             ViewData["StaffList"] = staffList.ToList();
@@ -33,6 +37,8 @@ namespace InstituteOfFineArts.Controllers
 
             return View();
         }
+
+
         public async Task<IActionResult> Edit(string id, string URL)
         {
             if (id == null)
