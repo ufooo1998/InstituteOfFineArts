@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewData["Title"] = "AccountList";
+
+    var staff = ViewData["StaffList"] as List<InstituteOfFineArts.Areas.Identity.Data.CustomUser>;
+    var student = ViewData["StudentList"] as List<InstituteOfFineArts.Areas.Identity.Data.CustomUser>;
+}
+
+<h2>Index</h2>
+
+@{
+    if (@TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Successed!</strong> @TempData["Success"]
+        </div>
+    }
+}
+
+<a asp-action="Create">Create Account</a>
+
+@ViewData["test"]
+
+
+<br />
+<h4>Staff Account List</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <td width="500px">User Name</td>
+            <td>Option</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in staff)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<hr />
+<h4>Student Account List</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <td width="500px">User Name</td>
+            <td>Option</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in student)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

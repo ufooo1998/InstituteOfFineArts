@@ -47,6 +47,10 @@ namespace InstituteOfFineArts.Controllers
         // Get list user of each role
         public async Task<IActionResult> Index()
         {
+            return View();
+        }
+        public async Task<IActionResult> AccountList()
+        {
             // get admin list
             var adminList = await _userManager.GetUsersInRoleAsync("Administrator");
             ViewData["AdminList"] = adminList.ToList();
