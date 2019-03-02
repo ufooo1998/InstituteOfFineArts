@@ -3,12 +3,11 @@
 @{
     ViewData["Title"] = "Details";
 }
-
-<h2>Details</h2>
-
 <div>
-    <h4>Post</h4>
+    <a class="btn btn-default" onclick="goBack()"><span class="ti-control-backward"></span></a>
     <hr />
+</div>
+<div>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.PostName)
@@ -47,13 +46,16 @@
             @Html.DisplayFor(model => model.Status)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.User)
+            Author
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.User.Id)
+            @Html.DisplayFor(model => model.User.UserName)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="DetailsCompetition">Back to List</a>
-</div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
