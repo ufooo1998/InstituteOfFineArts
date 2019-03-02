@@ -15,25 +15,28 @@ namespace InstituteOfFineArts.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Competition()
         {
-            ViewData["Message"] = "Your application description page.";
+            //ViewData["Message"] = "Your application description page.";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            //ViewData["Message"] = "Your contact page.";
 
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Attend()
         {
             return View();
         }
-
+        public IActionResult Guide()
+        {
+            return View();
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
