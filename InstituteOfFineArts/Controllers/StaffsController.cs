@@ -81,7 +81,7 @@ namespace InstituteOfFineArts.Controllers
                 }
                 if (DateTime.Now < competition.StartDate && DateTime.Now < competition.EndDate)
                 {
-                    competition.Status = CompetitonStatus.InComming;
+                    competition.Status = CompetitonStatus.ComingUp;
                 }
                 if (competition.StartDate < DateTime.Now && competition.EndDate < DateTime.Now)
                 {
@@ -108,7 +108,7 @@ namespace InstituteOfFineArts.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", competition.UserID);
+            ViewData["UserID"] = new SelectList(_context.Users, "Id", "UserName", competition.UserID);
             return View(competition);
         }
 
@@ -191,9 +191,8 @@ namespace InstituteOfFineArts.Controllers
             }
 
             var accountDetail = await _context.Users.FindAsync(id);
-            var accountRole = await _userManager.GetRolesAsync(accountDetail);
-            ViewData["AccountRole"] = accountRole.Count;
-
+            var getRoleId = _context.UserRoles.Where(c=>c.UserId == id).Single().RoleId;
+            ViewData["Role"] = _context.Roles.Find(getRoleId).Name;
             if (accountDetail == null)
             {
                 return NotFound();
