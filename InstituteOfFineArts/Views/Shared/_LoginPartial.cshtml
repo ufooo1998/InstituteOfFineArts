@@ -5,13 +5,60 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 100px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .dropdown-content button {
+                color: black;
+                padding: 10px 30px;
+                text-decoration: none;
+                display: block;
+            }
+
+             
+        .dropdown-item:hover {
+            background-color: #f1f1f1
+        }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .button1:hover{
+            color:white;
+            background-color:red;
+        }
+    </style>
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right" style="margin-right: -0px;">
+            @*<li>
+                    <a class="btn btn-default" asp-area="Identity" asp-page="/Account/Manage/Index" title="My Account">My Account</a>
+                </li>
+                <li>
+                    <button class="btn btn-danger" type="submit">Logout</button>
+                </li>*@
             <li>
-                <a class="btn btn-default" asp-area="Identity" asp-page="/Account/Manage/Index" title="My Account">My Account</a>
-            </li>
-            <li>
-                <button class="btn btn-danger" type="submit">Logout</button>
+                <div class="dropdown">
+                    <a class="btn btn-default" asp-area="Identity" asp-page="/Account/Manage/Index" title="My Account">My Account</a>
+                    <div class="dropdown-content">
+                        <button class="dropdown-item" type="button">My Infomation</button>
+                        <button class="dropdown-item" type="button">Manage</button>
+                        <button class="dropdown-item button1" type="submit">Logout</button>
+                    </div>
+                </div>
             </li>
         </ul>
     </form>
