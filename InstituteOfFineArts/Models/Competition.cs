@@ -13,15 +13,21 @@ namespace InstituteOfFineArts.Models
         {
         }
         public int ID { get; set; }
+        [Display(Name ="Competition Name")]
         public string CompetitionName { get; set; }
         public string Decription { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Award Date")]
         public DateTime AwardDate { get; set; }
+        [Display(Name = "Create Date")]
         public DateTime CreatedAt { get; set; }
+        [Display(Name = "Last Update")]
         public DateTime UpdatedAt { get; set; }
         public CompetitonStatus Status { get; set; }
         public string UserID { get; set; }
@@ -33,6 +39,7 @@ namespace InstituteOfFineArts.Models
     {
         Ended = 0,
         During = 1,
-        InComming = 2
+        Examing = 2,
+        ComingUp = 3
     }
 }

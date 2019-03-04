@@ -2,26 +2,27 @@
 
 @{
     ViewData["Title"] = "Competition";
+    ViewData["CompetitionList"] = "active"; 
 }
-
-
-
 <p>
-    <a class="btn btn-success" asp-action="CreateCompetition">Create New</a>
+    <a class="btn btn-success" title="Create" asp-action="CreateCompetition"><span class="ti-plus"></span></a>
 </p>
+<hr />
 <table class="table">
     <thead>
         <tr>
-            <th width="22%">
+            <th width="20%">
                 @Html.DisplayNameFor(model => model.CompetitionName)
             </th>
-            <th width="46%">
+            <th width="50%">
                 @Html.DisplayNameFor(model => model.Decription)
             </th>
             <th width="10%">
                 @Html.DisplayNameFor(model => model.Status)
             </th>
-            <th width="22%">Option</th>
+            <th width="20%">
+                Option
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -38,13 +39,13 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="EditCompetition" asp-route-id="@item.ID">
+                    <a class="btn btn-primary" title="Edit" asp-action="EditCompetition" asp-route-id="@item.ID">
                         <span class="ti-pencil"></span>
-                    </a> 
-                    <a class="btn btn-warning"  asp-action="DetailsCompetition" asp-route-id="@item.ID">
+                    </a>
+                    <a class="btn btn-warning" title="Detail" asp-action="DetailsCompetition" asp-route-id="@item.ID">
                         <span class="ti-list"></span>
-                    </a> 
-                    <a class="btn btn-danger" asp-action="DeleteCompetition" asp-route-id="@item.ID">
+                    </a>
+                    <a class="btn btn-danger" title="Delete" asp-action="DeleteCompetition" asp-route-id="@item.ID">
                         <span class="ti-trash"></span>
                     </a>
                 </td>

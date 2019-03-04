@@ -24,8 +24,7 @@ namespace InstituteOfFineArts.Controllers
         {
             return View();
         }
-
-        public IActionResult Guide()
+         public IActionResult Guide()
         {
             return View();
         }
@@ -33,7 +32,6 @@ namespace InstituteOfFineArts.Controllers
         {
             return View();
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

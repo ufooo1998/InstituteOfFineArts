@@ -1,6 +1,8 @@
-﻿@model IEnumerable<InstituteOfFineArts.Models.Competition>
+﻿@model InstituteOfFineArts.Areas.Identity.Data.CustomUser
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Dashboard";
     ViewData["Index"] = "active";
 }
+<h5>Hi @Model.UserName</h5>
+@ViewData["test"]
