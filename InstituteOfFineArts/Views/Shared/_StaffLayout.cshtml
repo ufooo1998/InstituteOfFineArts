@@ -32,6 +32,11 @@
         .container {
             width: 100%;
         }
+
+        body {
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
     </style>
 </head>
 <body>
@@ -56,6 +61,18 @@
                             <p>Competition</p>
                         </a>
                     </li>
+                    <li class="@ViewData["Mark"]">
+                        <a asp-controller="Staffs" asp-action="Mark">
+                            <i class="ti-pencil-alt"></i>
+                            <p>Mark</p>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a asp-controller="Staffs" asp-action="MyAccount">
+                            <i class="ti-id-badge"></i>
+                            <p>My Account</p>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -65,7 +82,7 @@
                     <div class="navbar-header">
                         <h4>@ViewData["Title"]</h4>
                     </div>
-                    <div class="collapse navbar-collapse">
+                    <div class="collapse navbar-collapse" style="">
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 <partial name="_LoginPartial" />
@@ -91,7 +108,7 @@
 
     <partial name="_CookieConsentPartial" />
 
-    
+
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
