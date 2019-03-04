@@ -1,5 +1,28 @@
-﻿
+﻿@model InstituteOfFineArts.Areas.Identity.Data.CustomUser
 @{
     ViewData["Title"] = "My Account";
+    ViewData["MyAccount"] = "active";
 }
+<a class="btn btn-warning" style="float:right"><span class="ti-pencil"></span></a>
 
+<h4>Account information</h4>
+<hr />
+<div class="col-lg-5">
+    <h5>User Name: <b>@Model.UserName</b></h5>
+    <br />
+    <h5>Email: <b>@Model.Email</b></h5>
+    <br />
+    <h5>Address: <b>@Model.Address</b></h5>
+    <br />
+    <h5>DateOfBirth: <b>@Html.DisplayFor(model => model.DateOfBirth)</b></h5>
+    <br />
+</div>
+<div class="col-lg-5">
+    <h5>Phone Number: <b>@Model.PhoneNumber</b></h5>
+    <br />
+    <h5>Role: <b>@ViewData["Role"]</b></h5>
+    <br />
+</div>
+<div class="col-lg-12">
+    <a class="btn btn-primary"  asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Change Password</a>
+</div>

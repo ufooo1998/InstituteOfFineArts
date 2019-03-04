@@ -25,9 +25,14 @@ namespace InstituteOfFineArts.Controllers
         public async Task<IActionResult> Index()
         {
             UpdateStatus();
+            ViewData["CompetitionCount"] = _context.Competition.ToList().Count;
+            ViewData["PostCount"] = _context.Post.ToList().Count;
+            ViewData["MarkCount"] = _context.Competition.Where(c=>c.Status == CompetitonStatus.Examining).ToList().Count;
+            
             var user = await GetCurrentUserAsync();
             return View(user);
         }
+
         public async Task<IActionResult> CompetitionList()
         {
             UpdateStatus();
@@ -161,7 +166,7 @@ namespace InstituteOfFineArts.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["PostCount"] = _context.CompetitionPost.Where(c => c.CompetitionID == competition.ID).ToList();
             return View(competition);
         }
 
@@ -197,6 +202,7 @@ namespace InstituteOfFineArts.Controllers
             }
             return View(accountDetail);
         }
+
         public async Task<IActionResult> DetailsPost(int? id)
         {
             if (id == null)
@@ -215,20 +221,62 @@ namespace InstituteOfFineArts.Controllers
             return View(post);
         }
 
-        public async Task<IActionResult> Mark()
+        public async Task<IActionResult> ExaminingCompetition()
         {
             UpdateStatus();
             var user = await GetCurrentUserAsync();
-            var myCompetitions = _context.Competition.Where(c => c.UserID == user.Id && c.Status == CompetitonStatus.Examing).ToList();
+            var myCompetitions = _context.Competition.Where(c => c.UserID == user.Id && c.Status == CompetitonStatus.Examining).ToList();
             return View(myCompetitions);
         }
+
+        public IActionResult ExaminingPost(int id)
+        {
+            var competitionPosts = _context.CompetitionPost.Where(c => c.CompetitionID == id).Include(c => c.Post).ThenInclude(c => c.User).ToList();
+            ViewData["PostList"] = competitionPosts;
+            return View();
+        }
+
+        public async Task<IActionResult> MarkPost(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            ViewData["CompetitionId"] = _context.CompetitionPost.Where(c => c.PostID == id).Single().CompetitionID;
+            var post = await _context.Post
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return View(post);
+        }
+
+        public async Task<IActionResult> Mark(int competitionId, int? Id, int PostPoint)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+            var post = _context.CompetitionPost.Where(c => c.PostID == Id).Single();
+            post.PostPoint = PostPoint;
+            _context.CompetitionPost.Update(post);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("ExaminingPost/" + competitionId);
+        }
+        
         public async Task<IActionResult> MyAccount()
         {
             var user = await GetCurrentUserAsync();
+
             return View(user);
         }
 
+        // get current user login
         private Task<CustomUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+        //check status of competition
         private void CheckStatus(Competition competition)
         {
             if (competition.StartDate <= DateTime.Now.Date && DateTime.Now.Date <= competition.EndDate)
@@ -251,16 +299,18 @@ namespace InstituteOfFineArts.Controllers
                     {
                         if (competition.EndDate.Date < DateTime.Now.Date && DateTime.Now.Date <= competition.AwardDate.Date)
                         {
-                            competition.Status = CompetitonStatus.Examing;
+                            competition.Status = CompetitonStatus.Examining;
                         }
                         if (competition.EndDate.Date < DateTime.Now.Date && DateTime.Now.Date <= competition.AwardDate.Date)
                         {
-                            competition.Status = CompetitonStatus.Examing;
+                            competition.Status = CompetitonStatus.Examining;
                         }
                     }
                 }
             }
         }
+
+        //update status of competition
         private void UpdateStatus()
         {
             var competitionList = _context.Competition.ToList();
@@ -284,7 +334,7 @@ namespace InstituteOfFineArts.Controllers
                         }
                         if (competitionList[i].EndDate.Date < DateTime.Now.Date && DateTime.Now.Date <= competitionList[i].AwardDate.Date)
                         {
-                            competitionList[i].Status = CompetitonStatus.Examing;
+                            competitionList[i].Status = CompetitonStatus.Examining;
                         }
                     }
                 }

@@ -13,13 +13,10 @@ namespace InstituteOfFineArts.Areas.Identity.Data
     {
         public CustomUser()
         {
-            this.CreatedAt = DateTime.Now;
-            this.UpdatedAt = DateTime.Now;
-            this.Status = AccountStatus.Activate;
         }
         public string Address { get; set; }
 
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateOfBirth { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

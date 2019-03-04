@@ -39,7 +39,7 @@ namespace InstituteOfFineArts.Models
     {
         Ended = 0,
         During = 1,
-        Examing = 2,
+        Examining = 2,
         ComingUp = 3
     }
 }
