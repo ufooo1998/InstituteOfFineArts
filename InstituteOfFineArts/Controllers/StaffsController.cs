@@ -22,15 +22,14 @@ namespace InstituteOfFineArts.Controllers
             
         }
         // GET: Competitions
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             UpdateStatus();
             ViewData["CompetitionCount"] = _context.Competition.ToList().Count;
             ViewData["PostCount"] = _context.Post.ToList().Count;
             ViewData["MarkCount"] = _context.Competition.Where(c=>c.Status == CompetitonStatus.Examining).ToList().Count;
-            
-            var user = await GetCurrentUserAsync();
-            return View(user);
+
+            return View();
         }
 
         public async Task<IActionResult> CompetitionList()
@@ -82,6 +81,7 @@ namespace InstituteOfFineArts.Controllers
             if (ModelState.IsValid)
             {
                 competition.CreatedAt = DateTime.Now;
+                competition.UpdatedAt = DateTime.Now;
                 competition.AwardDate = competition.EndDate.AddDays(2);
                 competition.StartDate = competition.StartDate.Date;
                 CheckStatus(competition);
@@ -128,6 +128,7 @@ namespace InstituteOfFineArts.Controllers
             {
                 try
                 {
+                    competition.UpdatedAt = DateTime.Now;
                     competition.AwardDate = competition.EndDate.AddDays(2);
                     CheckStatus(competition);
                     _context.Update(competition);
@@ -269,7 +270,7 @@ namespace InstituteOfFineArts.Controllers
         public async Task<IActionResult> MyAccount()
         {
             var user = await GetCurrentUserAsync();
-
+            ViewData["Role"] = _context.Roles.Find(_context.UserRoles.Where(c => c.UserId == user.Id).Single().RoleId);
             return View(user);
         }
 
