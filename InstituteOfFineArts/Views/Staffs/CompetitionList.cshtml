@@ -1,36 +1,27 @@
 ﻿@model IEnumerable<InstituteOfFineArts.Models.Competition>
 
 @{
-    ViewData["Title"] = "CompetitionList";
+    ViewData["Title"] = "Competition";
 }
 
-<h2>Index</h2>
+
 
 <p>
-    <a asp-action="CreateCompetition">Create New</a>
+    <a class="btn btn-success" asp-action="CreateCompetition">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th width="22%">
                 @Html.DisplayNameFor(model => model.CompetitionName)
             </th>
-            <th>
+            <th width="46%">
                 @Html.DisplayNameFor(model => model.Decription)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AwardDate)
-            </th>
-            <th>
+            <th width="10%">
                 @Html.DisplayNameFor(model => model.Status)
             </th>
-            <th></th>
+            <th width="22%">Option</th>
         </tr>
     </thead>
     <tbody>
@@ -44,21 +35,18 @@
                     @Html.DisplayFor(modelItem => item.Decription)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AwardDate)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
-                    <a asp-action="EditCompetition" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="DetailsCompetition" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="DeleteCompetition" asp-route-id="@item.ID">Delete</a>
+                    <a class="btn btn-primary" asp-action="EditCompetition" asp-route-id="@item.ID">
+                        <span class="ti-pencil"></span>
+                    </a> 
+                    <a class="btn btn-warning"  asp-action="DetailsCompetition" asp-route-id="@item.ID">
+                        <span class="ti-list"></span>
+                    </a> 
+                    <a class="btn btn-danger" asp-action="DeleteCompetition" asp-route-id="@item.ID">
+                        <span class="ti-trash"></span>
+                    </a>
                 </td>
             </tr>
         }

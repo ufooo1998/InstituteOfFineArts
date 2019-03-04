@@ -17,7 +17,7 @@
     }
 }
 
-<a asp-action="Create">Create Account</a>
+<a class="btn btn-success" asp-action="Create">Create Account</a>
 
 <hr />
 <h4>Administrators</h4>
@@ -35,9 +35,15 @@
                 <tr>
                     <td>@item.UserName</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="ti-pencil"></span>
+                        </a> 
+                        <a class="btn btn-block" asp-action="Details" asp-route-id="@item.Id">
+                            <span class="ti-list"></span>
+                        </a> 
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="ti-trash"></span>
+                        </a>
                     </td>
                 </tr>
             }
@@ -61,9 +67,15 @@
                 <tr>
                     <td>@item.UserName</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="ti-pencil"></span>
+                        </a>
+                        <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">
+                            <span class="ti-list"></span>
+                        </a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="ti-trash"></span>
+                        </a>
                     </td>
                 </tr>
             }
@@ -87,9 +99,15 @@
                 <tr>
                     <td>@item.UserName</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="ti-pencil"></span>
+                        </a>
+                        <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">
+                            <span class="ti-list"></span>
+                        </a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="ti-trash"></span>
+                        </a>
                     </td>
                 </tr>
             }
@@ -113,9 +131,15 @@
                 <tr>
                     <td>@item.UserName</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="ti-pencil"></span>
+                        </a>
+                        <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">
+                            <span class="ti-list"></span>
+                        </a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="ti-trash"></span>
+                        </a>
                     </td>
                 </tr>
             }
