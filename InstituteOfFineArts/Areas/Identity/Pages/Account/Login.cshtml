@@ -5,13 +5,12 @@
     ViewData["Title"] = "Log in";
 }
 <body style="background-color: #666666;">
-
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
                 <form method="post" class="login100-form validate-form">
                     <span class="login100-form-title p-b-43">
-                        Login to continue
+                        Login
                     </span>
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
@@ -39,19 +38,13 @@
                         <p>
                             <a asp-page="./ForgotPassword">Forgot your password?</a>
                         </p>
-                        <p>
-                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                        </p>
                     </div>
                 </form>
-
                 <div class="login100-more" style="background-image: url('https://znews-photo.zadn.vn/w660/Uploaded/JAC1_N3/2013_08_12/fpt%20arena%20-%20Anh4.jpg');">
                 </div>
             </div>
         </div>
     </div>
-
-
 </body>
 
 
