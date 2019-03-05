@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    ViewData["Create"] = "active";
 }
 
 
@@ -16,7 +17,9 @@
     }
 }
 
-
+        <div>
+            <a class="btn btn-default" asp-action="AccountList"><span class="ti-control-backward"></span></a>
+        </div>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -48,9 +51,7 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

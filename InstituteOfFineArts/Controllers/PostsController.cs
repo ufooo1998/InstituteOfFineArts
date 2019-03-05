@@ -64,7 +64,7 @@ namespace InstituteOfFineArts.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,PostName,Decription,Price,CreatedAt,UpdatedAt,Status,UserID")] Post post, IFormFile Image)
+        public async Task<IActionResult> Create([Bind("ID,PostName,Decription,Price,Image,CreatedAt,UpdatedAt,Status,UserID")] Post post, IFormFile Image)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,6 @@ namespace InstituteOfFineArts.Controllers
 
                 post.CreatedAt = DateTime.Now;
                 post.Status = PostStatus.Activate;
-                post.UserID = user.Id;
                 _context.Add(post);
                 _context.CompetitionPost.Add(new CompetitionPost { CompetitionID = currentCompetition.ID, PostID = post.ID });
                 await _context.SaveChangesAsync();
