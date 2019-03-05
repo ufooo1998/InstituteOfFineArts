@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Details";
+    ViewData["Competition"] = "active";
 }
 <div>
-    <a class="btn btn-default" asp-action="CompetitionList"><span class="ti-control-backward"></span></a>
+    <a class="btn btn-default" onclick="goBack()"><span class="ti-control-backward"></span></a>
     <a class="btn btn-warning" asp-action="EditCompetition" asp-route-id="@Model.ID"  style="float:right" ><span class="ti-pencil"></span></a>
 </div>
 <hr />
@@ -97,3 +98,8 @@
     </table>
 </div>
 
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>

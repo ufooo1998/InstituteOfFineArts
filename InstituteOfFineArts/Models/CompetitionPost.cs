@@ -13,5 +13,6 @@ namespace InstituteOfFineArts.Models
         public int PostID { get; set; }
         public Post Post { get; set; }
         public int PostPoint { get; set; }
+        public DateTime SubmitDate { get; set; }
     }
 }

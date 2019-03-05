@@ -1,0 +1,51 @@
+﻿@model IEnumerable<InstituteOfFineArts.Models.Competition>
+
+@{
+    ViewData["Title"] = "Mark";
+    ViewData["Mark"] = "active";
+}
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th width="20%">
+                @Html.DisplayNameFor(model => model.CompetitionName)
+            </th>
+            <th width="50%">
+                @Html.DisplayNameFor(model => model.Decription)
+            </th>
+            <th width="10%">
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th width="20%">Option</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompetitionName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Decription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary" title="Post List" asp-action="ExaminingPost" asp-route-id="@item.ID">
+                            <span class="ti-view-list"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@if (Model.Count() == 0)
+{
+    <h5>No available competition for mark!</h5>
+}

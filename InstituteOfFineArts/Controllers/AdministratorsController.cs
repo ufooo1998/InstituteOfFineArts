@@ -27,6 +27,25 @@ namespace InstituteOfFineArts.Controllers
         public class InputModel
         {
             [Required]
+            [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$", ErrorMessage = "Input contain invalid characters")]
+            [Display(Name = "User Name")]
+            public string UserName { get; set; }
+
+            [Required]
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+
+            [Required]
+            [Phone]
+            [Display(Name = "Phone Number")]
+            public string Phone { get; set; }
+
+            [Required]
+            [DataType(DataType.Date)]
+            [Display(Name = "Date Of Birth")]
+            public DateTime DateOfBirth { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -45,8 +64,9 @@ namespace InstituteOfFineArts.Controllers
             public string RoleName { get; set; }
         }
         // Get list user of each role
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
+
             return View();
         }
         public async Task<IActionResult> AccountList()
@@ -82,15 +102,22 @@ namespace InstituteOfFineArts.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new CustomUser { UserName = input.Email, Email = input.Email };
+                var user = new CustomUser {
+                    UserName = input.UserName,
+                    Email = input.Email,
+                    Address = input.Address,
+                    PhoneNumber = input.Phone,
+                    DateOfBirth = input.DateOfBirth
+                };
                 var createUserResult = await _userManager.CreateAsync(user, input.Password);
                 var createUserRoleResult = await _userManager.AddToRoleAsync(user, input.RoleName);
                 if (createUserResult.Succeeded && createUserRoleResult.Succeeded)
                 {
                     TempData["Success"] = "Created success.";
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(AccountList));
                 }
             }
+            ViewData["RoleList"] = new SelectList(_context.Roles, "Name", "Name");
             TempData["Fail"] = "Email already taken.";
             return View();
         }

@@ -1,0 +1,50 @@
+﻿@model InstituteOfFineArts.Models.Post
+@{
+    ViewData["Title"] = "MarkPost";
+    ViewData["Mark"] = "active";
+}
+<div>
+    <a class="btn btn-default" onclick="goBack()"><span class="ti-control-backward"></span></a>
+    <hr />
+</div>
+
+<div class="container">
+    <div style="margin: 10px auto; width:100%;">
+        <img style="margin:auto;" class="img-responsive full-width" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)" />
+    </div>
+    <hr />
+    <div>
+        <form asp-action="Mark">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td width="30%">Post Name</td>
+                        <td>@Model.PostName</td>
+                        <td hidden="hidden"><input name="Id" value="@Model.ID"/></td>
+                        <td hidden="hidden"><input name="CompetitionId" value="@ViewData["CompetitionId"]"/></td>
+                    </tr>
+                    <tr>
+                        <td>Decription</td>
+                        <td>@Model.Decription</td>
+                    </tr>
+                    <tr>
+                        <td>Post Point</td>
+                        <td>
+                            <div class="form-group-sm" style="width:100px;">
+                                <input class="form-control" name="PostPoint" type="number" required />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    ViewData["Competition"] = "active";
 }
 <div>
     <a class="btn btn-default" onclick="goBack()"><span class="ti-control-backward"></span></a>
@@ -12,6 +13,7 @@
         <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
+            <input type="hidden" name="CreatedAt" value="@Model.CreatedAt" />
             <div class="form-group">
                 <label asp-for="CompetitionName" class="control-label"></label>
                 <input asp-for="CompetitionName" class="form-control" />

@@ -55,19 +55,19 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="@ViewData["CompetitionList"]">
+                    <li class="@ViewData["Competition"]">
                         <a asp-controller="Staffs" asp-action="CompetitionList">
                             <i class="ti-view-list-alt"></i>
                             <p>Competition</p>
                         </a>
                     </li>
                     <li class="@ViewData["Mark"]">
-                        <a asp-controller="Staffs" asp-action="Mark">
+                        <a asp-controller="Staffs" asp-action="ExaminingCompetition">
                             <i class="ti-pencil-alt"></i>
                             <p>Mark</p>
                         </a>
                     </li>
-                    <li class="">
+                    <li class="@ViewData["MyAccount"]">
                         <a asp-controller="Staffs" asp-action="MyAccount">
                             <i class="ti-id-badge"></i>
                             <p>My Account</p>
