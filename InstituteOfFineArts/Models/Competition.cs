@@ -13,25 +13,40 @@ namespace InstituteOfFineArts.Models
         {
         }
         public int ID { get; set; }
+
+        [Required]
         [Display(Name ="Competition Name")]
         public string CompetitionName { get; set; }
+
+        [Required]
         public string Decription { get; set; }
+
+        [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
+
+        [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
+
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Award Date")]
         public DateTime AwardDate { get; set; }
+
         [Display(Name = "Create Date")]
         public DateTime CreatedAt { get; set; }
+
         [Display(Name = "Last Update")]
         public DateTime UpdatedAt { get; set; }
+
         public CompetitonStatus Status { get; set; }
+
         public string UserID { get; set; }
+
         public CustomUser User { get; set; }
+
         public List<CompetitionPost> CompetitionPosts { get; set; }
     }
 
