@@ -80,15 +80,20 @@ namespace InstituteOfFineArts.Controllers
         {
             if (ModelState.IsValid)
             {
-                competition.CreatedAt = DateTime.Now;
-                competition.UpdatedAt = DateTime.Now;
-                competition.AwardDate = competition.EndDate.AddDays(2);
-                competition.StartDate = competition.StartDate.Date;
-                CheckStatus(competition);
-                _context.Add(competition);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(CompetitionList));
+                if ( competition.StartDate < competition.EndDate)
+                {
+                    competition.CreatedAt = DateTime.Now;
+                    competition.UpdatedAt = DateTime.Now;
+                    competition.AwardDate = competition.EndDate.AddDays(2);
+                    competition.StartDate = competition.StartDate.Date;
+                    CheckStatus(competition);
+                    _context.Add(competition);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(CompetitionList));
+                }
+                TempData["DateError"] = "Invalid start date & end date!";
             }
+
             var staffList = await _userManager.GetUsersInRoleAsync("staff");
             ViewData["UserID"] = new SelectList(staffList, "Id", "UserName", competition.UserID);
             return View(competition);

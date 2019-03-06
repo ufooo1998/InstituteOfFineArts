@@ -6,6 +6,10 @@
 }
 <div>
     <a class="btn btn-default" asp-action="CompetitionList"><span class="ti-control-backward"></span></a>
+    @if (TempData["DateError"] != null)
+    {
+        <p class="alert-danger">@TempData["DateError"]</p>
+    }
 </div>
 <hr />
 <div class="row">

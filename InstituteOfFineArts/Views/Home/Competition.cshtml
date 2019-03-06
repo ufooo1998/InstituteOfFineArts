@@ -10,6 +10,63 @@
     </div>
 </div>
 
-@{
-    ViewData["Title"] = "About";
-}
+
+<div class="container">
+    <div class="container-fluid">
+        <hr />
+        <h2>ComingUp Competition</h2>
+        <table class="table table-hover">
+            @foreach (var item in (List<Competition>)ViewData["ComingUp"])
+            {
+                <tr>
+                    <td width="20%">@item.CompetitionName</td>
+                    <td width="50%">@item.Decription</td>
+                    <td width="20%"></td>
+                    <td width="10%"><a asp-action="CompetitionDetails" asp-route-id="@item.ID">Details</a></td>
+                </tr>
+            }
+        </table>
+
+        <hr />
+        <h2>During Competition</h2>
+        <table class="table table-hover">
+            @foreach (var item in (List<Competition>)ViewData["During"])
+            {
+            <tr>
+                <td width="20%">@item.CompetitionName</td>
+                <td width="50%">@item.Decription</td>
+                <td width="20%">@item.CompetitionPosts.Count() Post(s)</td>
+                <td width="10%"><a asp-action="CompetitionDetails" asp-route-id="@item.ID">Details</a></td>
+            </tr>
+            }
+        </table>
+
+        <hr />
+        <h2>Examining Competition</h2>
+        <table class="table table-hover">
+            @foreach (var item in (List<Competition>)ViewData["Examining"])
+            {
+            <tr>
+                <td width="20%">@item.CompetitionName</td>
+                <td width="50%">@item.Decription</td>
+                <td width="20%">@item.CompetitionPosts.Count() Post(s)</td>
+                <td width="10%"><a asp-action="CompetitionDetails" asp-route-id="@item.ID">Details</a></td>
+            </tr>
+            }
+        </table>
+
+        <hr />
+        <h2>Ended Competition</h2>
+        <table class="table table-hover">
+            @foreach (var item in (List<Competition>)ViewData["Ended"])
+            {
+            <tr>
+                <td width="20%">@item.CompetitionName</td>
+                <td width="50%">@item.Decription</td>
+                <td width="20%">@item.CompetitionPosts.Count() Post(s)</td>
+                <td width="10%"><a asp-action="CompetitionDetails" asp-route-id="@item.ID">Details</a></td>
+            </tr>
+            }
+        </table>
+    </div>
+</div>
