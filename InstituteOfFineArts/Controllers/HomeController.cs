@@ -29,6 +29,9 @@ namespace InstituteOfFineArts.Controllers
         {
             ViewData["During"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.During).OrderBy(c => c.CreatedAt).ToList();
             ViewData["ComingUp"] = _context.Competition.Where(c => c.Status == CompetitonStatus.ComingUp).OrderBy(c => c.CreatedAt).ToList();
+            ViewData["Examining"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Examining).OrderBy(c => c.CreatedAt).ToList();
+            ViewData["Ended"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ended).OrderBy(c => c.CreatedAt).ToList();
+
             return View();
         }
 
@@ -38,7 +41,9 @@ namespace InstituteOfFineArts.Controllers
             ViewData["ComingUp"] = _context.Competition.Where(c => c.Status == CompetitonStatus.ComingUp).OrderBy(c=>c.CreatedAt).ToList();
             ViewData["Examining"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Examining).OrderBy(c=>c.CreatedAt).ToList();
             ViewData["Ended"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ended).OrderBy(c=>c.CreatedAt).ToList();
-            return View();
+
+            var competitionList = _context.Competition.OrderBy(a=>a.CreatedAt).ToList();
+            return View(competitionList);
         }
 
         public async Task<IActionResult> CompetitionDetails(int? id)
@@ -47,50 +52,60 @@ namespace InstituteOfFineArts.Controllers
             {
                 return NotFound();
             }
-            var competition = await _context.Competition.Include(a=>a.User).FirstOrDefaultAsync(m => m.ID == id);
-            var posts = _context.CompetitionPost.Include(a => a.Post).Where(c=>c.CompetitionID == id).ToList();
-            ViewData["Posts"] = posts;
-            return View(competition);
-        }
-        public async Task<IActionResult> Attend()
-        {
+
+            // check is current user in student role
             var user = await GetCurrentUserAsync();
-            ViewData["UserSignedIn"] = false;
+            ViewData["IsStudent"] = false;
             if (user != null)
             {
                 var IsStudentRole = _userManager.IsInRoleAsync(user, "Student");
-                ViewData["UserSignedIn"] = IsStudentRole.Result;
+                ViewData["IsStudent"] = IsStudentRole.Result;
             }
+
+            // check number post of user
+            if (user != null)
+            {
+                var userPost = _context.CompetitionPost.Where(a => a.UserID == user.Id && a.CompetitionID == id).Count();
+                ViewData["IsValid"] = false;
+                if (userPost == 0)
+                {
+                    ViewData["IsValid"] = true;
+                }
+            }
+            
+
+            // get list of post and its information
+            var competition = await _context.Competition.Include(a=>a.User).FirstOrDefaultAsync(m => m.ID == id);
+            var posts = _context.CompetitionPost.Include(a => a.Post).ThenInclude(b=>b.User).Where(c=>c.CompetitionID == id).ToList();
+            ViewData["Posts"] = posts;
+            return View(competition);
+        }
+        public IActionResult Attend(int id)
+        {
+            ViewData["id"] = id;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Attend([Bind("ID,PostName,Decription,Price")] Post post, IFormFile Image)
+        public async Task<IActionResult> Attend([Bind("PostName,Decription,Price")] Post post, IFormFile Image, int id)
         {
             if (ModelState.IsValid)
             {
                 var user = await GetCurrentUserAsync();
-                var currentCompetition = _context.Competition.Where(c => c.Status == CompetitonStatus.During).Single();
-                var userPostsCount = _context.CompetitionPost.Where(c => c.UserID == user.Id && c.CompetitionID == currentCompetition.ID).Count();
-                if (userPostsCount == 0)
+                using (var ms = new MemoryStream())
                 {
-                    using (var ms = new MemoryStream())
-                    {
-                        Image.CopyTo(ms);
-                        post.Image = ms.ToArray();
-                    }
-
-                    post.CreatedAt = DateTime.Now;
-                    post.UpdatedAt = DateTime.Now;
-                    post.UserID = user.Id;
-                    _context.Add(post);
-                    _context.CompetitionPost.Add(new CompetitionPost { CompetitionID = currentCompetition.ID, PostID = post.ID, UserID = user.Id, SubmitDate = DateTime.Now });
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(MyAccount));
+                    Image.CopyTo(ms);
+                    post.Image = ms.ToArray();
                 }
-                TempData["PostError"] = "You already have post on this competition!";
-                return new JsonResult(TempData["PostError"]);
+
+                post.CreatedAt = DateTime.Now;
+                post.UpdatedAt = DateTime.Now;
+                post.UserID = user.Id;
+                _context.Add(post);
+                _context.CompetitionPost.Add(new CompetitionPost { CompetitionID = id, PostID = post.ID, UserID = user.Id, SubmitDate = DateTime.Now });
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(MyAccount));
             }
             return View(post);
         }
