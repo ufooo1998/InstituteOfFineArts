@@ -36,6 +36,9 @@
     <Content Update="Views\Managers\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Shared\_HomeLayout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\_StaffLayout.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
