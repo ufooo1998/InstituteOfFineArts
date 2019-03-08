@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Account List";
+    ViewData["AccountList"] = "active";
     var admins = ViewData["AdminList"] as List<InstituteOfFineArts.Areas.Identity.Data.CustomUser>;
     var manager = ViewData["ManagerList"] as List<InstituteOfFineArts.Areas.Identity.Data.CustomUser>;
     var staff = ViewData["StaffList"] as List<InstituteOfFineArts.Areas.Identity.Data.CustomUser>;
@@ -17,15 +18,17 @@
     }
 }
 
-<a asp-action="Create">Create Account</a>
 
-<hr />
+<p>
+    <a class="btn btn-success" title="Create" asp-action="Create"><span class="ti-plus"></span></a>
+</p>
+
 <h4>Administrators</h4>
 <table class="table table-hover">
     <thead>
         <tr>
-            <th width="500px">User Name</th>
-            <th>Option</th>
+            <th width="80%">User Name</th>
+            <th width="20%">Option</th>
         </tr>
     </thead>
     <tbody>
@@ -33,11 +36,17 @@
             foreach (var item in admins)
             {
                 <tr>
-                    <td>@item.UserName</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <td width="80%">@item.UserName</td>
+                    <td width="20%">
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="ti-pencil"></span>
+                        </a> 
+                        <a class="btn btn-block" asp-action="Details" asp-route-id="@item.Id">
+                            <span class="ti-list"></span>
+                        </a> 
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="ti-trash"></span>
+                        </a>
                     </td>
                 </tr>
             }
@@ -50,8 +59,9 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th width="500px">User Name</th>
-            <th>Option</th>
+            <th width="30%">User Name</th>
+            <th width="50%">Email</th>
+            <th width="20%">Option</th>
         </tr>
     </thead>
     <tbody>
@@ -59,11 +69,18 @@
             foreach (var item in manager)
             {
                 <tr>
-                    <td>@item.UserName</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <td width="30%">@item.UserName</td>
+                    <td width="50%">@item.Email</td>
+                    <td width="20%">
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="ti-pencil"></span>
+                        </a>
+                        <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">
+                            <span class="ti-list"></span>
+                        </a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="ti-trash"></span>
+                        </a>
                     </td>
                 </tr>
             }
@@ -76,8 +93,9 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th width="500px">User Name</th>
-            <th>Option</th>
+            <th width="30%">User Name</th>
+            <th width="50%">Email</th>
+            <th width="20%">Option</th>
         </tr>
     </thead>
     <tbody>
@@ -85,11 +103,18 @@
             foreach (var item in staff)
             {
                 <tr>
-                    <td>@item.UserName</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <td width="30%">@item.UserName</td>
+                    <td width="50%">@item.Email</td>
+                    <td width="20%">
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="ti-pencil"></span>
+                        </a>
+                        <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">
+                            <span class="ti-list"></span>
+                        </a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="ti-trash"></span>
+                        </a>
                     </td>
                 </tr>
             }
@@ -102,22 +127,30 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th width="500px">User Name</th>
-            <th>Option</th>
+            <th width="30%">User Name</th>
+            <th width="50%">Email</th>
+            <th width="20%">Option</th>
         </tr>
     </thead>
     <tbody>
         @{
             foreach (var item in student)
             {
-                <tr>
-                    <td>@item.UserName</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
+        <tr>
+            <td width="30%">@item.UserName</td>
+            <td width="50%">@item.Email</td>
+            <td width="20%">
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                    <span class="ti-pencil"></span>
+                </a>
+                <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">
+                    <span class="ti-list"></span>
+                </a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                    <span class="ti-trash"></span>
+                </a>
+            </td>
+        </tr>
             }
         }
     </tbody>
