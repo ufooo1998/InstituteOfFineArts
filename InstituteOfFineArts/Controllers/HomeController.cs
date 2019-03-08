@@ -11,6 +11,7 @@ using System.IO;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InstituteOfFineArts.Controllers
 {
@@ -27,22 +28,22 @@ namespace InstituteOfFineArts.Controllers
 
         public IActionResult Index()
         {
-            ViewData["During"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.During).OrderBy(c => c.CreatedAt).ToList();
-            ViewData["ComingUp"] = _context.Competition.Where(c => c.Status == CompetitonStatus.ComingUp).OrderBy(c => c.CreatedAt).ToList();
-            ViewData["Examining"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Examining).OrderBy(c => c.CreatedAt).ToList();
-            ViewData["Ended"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ended).OrderBy(c => c.CreatedAt).ToList();
+            ViewData["During"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.During).OrderByDescending(c => c.CreatedAt).ToList();
+            ViewData["ComingUp"] = _context.Competition.Where(c => c.Status == CompetitonStatus.ComingUp).OrderByDescending(c => c.CreatedAt).ToList();
+            ViewData["Examining"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Examining).OrderByDescending(c => c.CreatedAt).ToList();
+            ViewData["Ended"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ended).OrderByDescending(c => c.CreatedAt).ToList();
 
             return View();
         }
 
         public IActionResult Competition()
         {
-            ViewData["During"] = _context.Competition.Include(a=>a.CompetitionPosts).Where(c=>c.Status == CompetitonStatus.During).OrderBy(c=>c.CreatedAt).ToList();
-            ViewData["ComingUp"] = _context.Competition.Where(c => c.Status == CompetitonStatus.ComingUp).OrderBy(c=>c.CreatedAt).ToList();
-            ViewData["Examining"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Examining).OrderBy(c=>c.CreatedAt).ToList();
-            ViewData["Ended"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ended).OrderBy(c=>c.CreatedAt).ToList();
+            ViewData["During"] = _context.Competition.Include(a=>a.CompetitionPosts).Where(c=>c.Status == CompetitonStatus.During).OrderByDescending(c=>c.CreatedAt).ToList();
+            ViewData["ComingUp"] = _context.Competition.Where(c => c.Status == CompetitonStatus.ComingUp).OrderByDescending(c=>c.CreatedAt).ToList();
+            ViewData["Examining"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Examining).OrderByDescending(c=>c.CreatedAt).ToList();
+            ViewData["Ended"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ended).OrderByDescending(c=>c.CreatedAt).ToList();
 
-            var competitionList = _context.Competition.OrderBy(a=>a.CreatedAt).ToList();
+            var competitionList = _context.Competition.OrderByDescending(a=>a.CreatedAt).ToList();
             return View(competitionList);
         }
 
@@ -80,15 +81,17 @@ namespace InstituteOfFineArts.Controllers
             ViewData["Posts"] = posts;
             return View(competition);
         }
+        [Authorize(Roles = "Student")]
         public IActionResult Attend(int id)
         {
             ViewData["id"] = id;
             return View();
         }
 
+        [Authorize(Roles = "Student")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Attend([Bind("PostName,Decription,Price")] Post post, IFormFile Image, int id)
+        public async Task<IActionResult> Attend([Bind("PostName,Decription")] Post post, IFormFile Image, int id)
         {
             if (ModelState.IsValid)
             {
@@ -107,7 +110,8 @@ namespace InstituteOfFineArts.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(MyAccount));
             }
-            return View(post);
+            return new JsonResult(post);
+            //return View(post);
         }
 
         public IActionResult Guide()
@@ -120,10 +124,11 @@ namespace InstituteOfFineArts.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Student")]
         public async Task<IActionResult> MyAccount()
         {
             var user = await GetCurrentUserAsync();
-            var userPosts = _context.Post.Where(c=>c.UserID == user.Id).ToList();
+            var userPosts = _context.CompetitionPost.Include(a=>a.Competition).Include(b=>b.Post).Where(c=>c.UserID == user.Id).ToList();
             return View(userPosts);
         }
 

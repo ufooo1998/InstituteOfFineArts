@@ -1,4 +1,17 @@
 ﻿@model InstituteOfFineArts.Models.Post
+
+<style>
+    .s-pageheader--home {
+        min-height: 255px;
+        padding-top: 222px;
+    }
+</style>
+<div class="pageheader-content row">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</div>
     </section> <!-- end s-pageheader -->
 
 <div class="content">
@@ -22,17 +35,11 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Image" class="control-label"></label>
-                        <input asp-for="Image" type="file" class="form-control" />
+                        <input asp-for="Image" type="file" class="form-control" required/>
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Price" class="control-label"></label>
-                        <input asp-for="Price" class="form-control" />
-                        <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-default" />
+                        <input type="submit" value="Submit" class="btn btn-primary btn-block" />
                     </div>
                 </form>
             </div>
