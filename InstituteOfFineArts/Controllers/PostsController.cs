@@ -79,6 +79,8 @@ namespace InstituteOfFineArts.Controllers
 
                 post.CreatedAt = DateTime.Now;
                 post.Status = PostStatus.Activate;
+                post.UserID = user.Id;
+
                 _context.Add(post);
                 _context.CompetitionPost.Add(new CompetitionPost { CompetitionID = currentCompetition.ID, PostID = post.ID });
                 await _context.SaveChangesAsync();

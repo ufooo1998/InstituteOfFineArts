@@ -13,25 +13,42 @@ namespace InstituteOfFineArts.Models
         {
         }
         public int ID { get; set; }
+
+        [Required]
         [Display(Name ="Competition Name")]
         public string CompetitionName { get; set; }
+
+        [Required]
         public string Decription { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+
+        [Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, dd/MM/yyyy}")]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+
+        [Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, dd/MM/yyyy}")]
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, dd/MM/yyyy}")]
         [Display(Name = "Award Date")]
         public DateTime AwardDate { get; set; }
+
         [Display(Name = "Create Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd - dd/MM/yyyy - HH:mm}")]
         public DateTime CreatedAt { get; set; }
+
         [Display(Name = "Last Update")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd - dd/MM/yyyy - HH:mm}")]
         public DateTime UpdatedAt { get; set; }
+
         public CompetitonStatus Status { get; set; }
+
         public string UserID { get; set; }
+
         public CustomUser User { get; set; }
+
         public List<CompetitionPost> CompetitionPosts { get; set; }
     }
 
@@ -39,7 +56,7 @@ namespace InstituteOfFineArts.Models
     {
         Ended = 0,
         During = 1,
-        Examing = 2,
+        Examining = 2,
         ComingUp = 3
     }
 }

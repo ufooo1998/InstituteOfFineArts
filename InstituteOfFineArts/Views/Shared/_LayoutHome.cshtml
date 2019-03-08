@@ -1,10 +1,4 @@
-﻿@*@{
-        ViewData["Title"] = "_LayoutHome";
-    }
-
-    <h2>_LayoutHome</h2>*@
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>FPT Arena Multimedia </title>
@@ -41,7 +35,7 @@
                     <div class="col-11 col-xl-2">
                         <h1 class="mb-0">
                             <a asp-area="" asp-controller="Home" asp-action="Index" class="text-white h2 mb-0">
-                                <img  style="width: 150px" src="http://arena.fpt.edu.vn/wp-content/uploads/2017/11/2017-Arena-01.png">
+                                <img style="width: 150px" src="http://arena.fpt.edu.vn/wp-content/uploads/2017/11/2017-Arena-01.png">
                             </a>
                         </h1>
                     </div>
@@ -50,20 +44,18 @@
                             <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
                                 <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                                 <li><a asp-area="" asp-controller="Home" asp-action="Competition">Competition</a></li>
-                                <li><a asp-area="" asp-controller="Home" asp-action="Attend">Attend</a></li>
                                 <li><a asp-area="" asp-controller="Home" asp-action="Guide">Guide</a></li>
                                 <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                                <li></li>
+                                <li></li>
                                 <li><partial name="_LoginPartial" /></li>
                             </ul>
                         </nav>
                     </div>
-
                     <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
                 </div>
             </div>
-
         </header>
-
     </div>
     <div class=" body-content">
         @RenderBody()
@@ -76,8 +68,10 @@
                 <div class="col-md-4">
                     <h2 class="footer-heading mb-4">Contact</h2>
                     <ul class="list-unstyled border-top pt-5">
-                        <p>Địa chỉ: 264 Đội Cấn, Ba Đình, Hà Nội (Tầng 4 Viện Cơ Học)</p>
-                        <p>Điện thoại: (024) 7300 8855, 73009955</p>
+                        <p>
+                            Address: 264 Doi can, Ba Dinh, Ha noi (4th floor Institute of Mechanics)
+                        </p>
+                        <p>Phone: (024) 7300 8855, 73009955</p>
                         <p>Email: phonghanhchinhmythuat@gmail.com</p>
                         <p>Website: http://arena.fpt.edu.vn</p>
                     </ul>

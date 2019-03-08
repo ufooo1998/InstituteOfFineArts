@@ -123,6 +123,10 @@ namespace InstituteOfFineArts.Migrations
 
                     b.Property<int>("PostPoint");
 
+                    b.Property<DateTime>("SubmitDate");
+
+                    b.Property<string>("UserID");
+
                     b.HasKey("ID");
 
                     b.HasIndex("CompetitionID");
@@ -147,8 +151,6 @@ namespace InstituteOfFineArts.Migrations
                     b.Property<string>("PostName");
 
                     b.Property<int>("Price");
-
-                    b.Property<int>("Status");
 
                     b.Property<DateTime>("UpdatedAt");
 
