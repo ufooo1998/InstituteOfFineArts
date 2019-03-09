@@ -14,8 +14,15 @@ namespace InstituteOfFineArts.Areas.Identity.Data
         public CustomUser()
         {
         }
+
+        [Required]
+        public string FullName { get; set; }
+
+        [Required]
         public string Address { get; set; }
 
+        public Gender Gender { get; set; }
+        [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateOfBirth { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -23,6 +30,13 @@ namespace InstituteOfFineArts.Areas.Identity.Data
         public AccountStatus Status { get; set; }
         public List<Competition> Competitions { get; set; }
         public List<Post> Posts { get; set; }
+    }
+
+    public enum Gender
+    {
+        Male = 1,
+        Female = 0,
+        Other = 2
     }
 
     public enum AccountStatus

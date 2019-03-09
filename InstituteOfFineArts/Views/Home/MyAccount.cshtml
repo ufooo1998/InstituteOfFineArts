@@ -1,53 +1,94 @@
 ﻿@model List<CompetitionPost>
 @{
     ViewData["Title"] = "MyAccount";
+    var user = ViewData["User"] as InstituteOfFineArts.Areas.Identity.Data.CustomUser;
 }
-
 <style>
     .s-pageheader--home {
         min-height: 255px;
         padding-top: 222px;
     }
 </style>
-    <div class="pageheader-content row">
-        <div class="container">
-
-        </div>
+<div class="pageheader-content row">
+    <div class="container">
     </div>
+</div>
 </section> <!-- end s-pageheader -->
 
-    <div class="content">
-        <div class="container">
-            <hr />
-            @{ 
-                foreach (var item in Model)
-                {
-                    <div>
-                        <div class="full-width">
-                            <img class="img-responsive center-block" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Post.Image)" />
-                        </div>
-                        <div class="full-width">
-                            <div class="center-block align-center" style="width:50%;">
-                                <hr />
-                                <dl class="dl-horizontal">
+<div class="content">
+    <div class="container">
+        <hr />
+        <div class="container-fluid">
+            <div class="row well">
+                <b>YOUR INFORMATION</b>
+                <hr />
+                <div class="col-lg-6">
+                    <dl>
+                        <dt>Full Name:</dt>
+                        <dd>a</dd>
 
-                                    <dt>Post Name:</dt>
-                                    <dd><b>@item.Post.PostName</b></dd>
+                        <dt>Account Name:</dt>
+                        <dd>@user.UserName</dd>
 
-                                    <dt>Decription:</dt>
-                                    <dd>@item.Post.Decription</dd>
+                        <dt>Email:</dt>
+                        <dd>@user.Email</dd>
 
-                                    <dt>Post Time:</dt>
-                                    <dd>@Html.DisplayFor(modelItem => item.Post.CreatedAt)</dd>
+                        <dt>Address:</dt>
+                        <dd>@user.Address</dd>
+                    </dl>
+                </div>
 
-                                    <dt>Competition Name:</dt>
-                                    <dd>@item.Competition.CompetitionName</dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <hr />
-                    </div>
-                }
-            }
+                <div class="col-lg-6">
+                    <dl>
+                        <dt>Phone Number:</dt>
+                        <dd>@user.PhoneNumber</dd>
+
+                        <dt>Date of Birth:</dt>
+                        <dd>@user.DateOfBirth</dd>
+
+                        <dt>Gender:</dt>
+                        <dd>a</dd>
+                    </dl>
+                </div>
+                <div>
+                    <a class="btn btn-primary">Change Informaition</a>
+                    <a class="btn btn-warning">Change Password</a>
+                </div>
+            </div>
         </div>
+
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <td width="20%"><b>Image</b></td>
+                    <td width="10%"><b>Post Name</b></td>
+                    <td width="35%"><b>Description</b></td>
+                    <td width="15%"><b>Post Time</b></td>
+                    <td width="10%"><b>Competition</b></td>
+                    <td width="10%"><b>Option</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="full-width">
+                                    <img class="img-responsive" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Post.Image)" />
+                                </div>
+                            </td>
+                            <td>@item.Post.PostName</td>
+                            <td>@item.Post.Decription</td>
+                            <td>@Html.DisplayFor(modelItem => item.Post.CreatedAt)</td>
+                            <td>@item.Competition.CompetitionName</td>
+                            <td><a class="btn btn-warning">EDIT</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
     </div>
+</div>
