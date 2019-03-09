@@ -84,7 +84,6 @@ html, body {
 }
 
 body {
-    background: #19191b;
     font-family: "metropolis-regular", sans-serif;
     font-size: 1.6rem;
     font-style: normal;
@@ -128,7 +127,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
-    margin-top: 6rem;
+    /*margin-top: 6rem;*/
     margin-bottom: 1.8rem;
 }
 
@@ -1620,7 +1619,7 @@ textarea:-webkit-autofill:focus, select:-webkit-autofill, select:-webkit-autofil
 }
 
 .s-pageheader--home {
-    min-height: 480px;
+    min-height: 200px;
     padding-top: 222px;
 }
 
@@ -3110,8 +3109,7 @@ html.no-csstransitions .featured {
  * ------------------------------------------------------------------- */
 footer {
     background: white;
-    padding-top: 10.2rem;
-    padding-bottom: 6rem;
+    padding-bottom: 3rem;
     font-size: 1.5rem;
     line-height: 2;
     color: black;
