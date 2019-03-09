@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InstituteOfFineArts.Controllers
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrator")]
     public class AdministratorsController : Controller
     {
         private readonly InstituteOfFineArtsContext _context;
