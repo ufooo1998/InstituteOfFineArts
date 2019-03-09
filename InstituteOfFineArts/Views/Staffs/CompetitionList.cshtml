@@ -2,9 +2,8 @@
 
 @{
     ViewData["Title"] = "Competition";
-    ViewData["Competition"] = "active";
+    ViewData["CompetitionList"] = "active"; 
 }
-
 <p>
     <a class="btn btn-success" title="Create" asp-action="CreateCompetition"><span class="ti-plus"></span></a>
 </p>
@@ -21,7 +20,9 @@
             <th width="10%">
                 @Html.DisplayNameFor(model => model.Status)
             </th>
-            <th width="20%">Option</th>
+            <th width="20%">
+                Option
+            </th>
         </tr>
     </thead>
     <tbody>

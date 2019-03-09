@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Create";
+    ViewData["Create"] = "active";
 }
 
-<h2>Create</h2>
+
 
 @{
     if (TempData["Faile"] != null)
@@ -16,11 +17,13 @@
     }
 }
 
-<h4>Account</h4>
+        <div>
+            <a class="btn btn-default" asp-action="AccountList"><span class="ti-control-backward"></span></a>
+        </div>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Input.UserName"></label>
@@ -68,9 +71,7 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
