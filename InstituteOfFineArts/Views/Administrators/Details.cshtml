@@ -1,28 +1,64 @@
 ﻿@model InstituteOfFineArts.Areas.Identity.Data.CustomUser;
 @{
     ViewData["Title"] = "Details";
+    ViewData["AccountList"] = "active";
+    var role = ViewData["AccountRole"] as List<string>;
 }
 
-<h2>Details</h2>
 
-<hr />
-<dl class="dl-horizontal">
-    <dt>
-        Id
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.Id)
-    </dd>
-    <dt>
-        User Name
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.UserName)
-    </dd>
-    <dt>
-        Role
-    </dt>
-    <dd>
-        @ViewData["AccountRole"]
-    </dd>
-</dl>
+<div class="content">
+    <div class="container-fluid" style="font-size:18px">
+        <div class="row well">
+            <dl class="col-lg-6">
+                <dt>
+                    Full Name:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.FullName)
+                </dd>
+                <dt>
+                    Account Name:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt>
+                    Address:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+                <dt>
+                    Date of Birth:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateOfBirth)
+                </dd>
+            </dl>
+            <dl class="col-lg-6">
+                <dt>
+                    Email:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt>
+                    Gender:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Gender)
+                </dd>
+                <dt>
+                    Role:
+                </dt>
+                <dd>
+                    @foreach (var item in role)
+                    {
+                        @item
+                    }
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+

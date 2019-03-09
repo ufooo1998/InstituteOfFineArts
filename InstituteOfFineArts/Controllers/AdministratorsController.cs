@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InstituteOfFineArts.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
     public class AdministratorsController : Controller
     {
         private readonly InstituteOfFineArtsContext _context;
@@ -29,9 +29,13 @@ namespace InstituteOfFineArts.Controllers
         public class InputModel
         {
             [Required]
-            [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$", ErrorMessage = "Input contain invalid characters")]
+            [RegularExpression("^[A-Za-z]+$", ErrorMessage = "Input invalid")]
             [Display(Name = "User Name")]
             public string UserName { get; set; }
+
+            [Required]
+            [Display(Name = "Full Name")]
+            public string FullName { get; set; }
 
             [Required]
             [Display(Name = "Address")]
@@ -46,6 +50,9 @@ namespace InstituteOfFineArts.Controllers
             [DataType(DataType.Date)]
             [Display(Name = "Date Of Birth")]
             public DateTime DateOfBirth { get; set; }
+
+            [Required]
+            public Gender Gender { get; set; }
 
             [Required]
             [EmailAddress]
@@ -66,13 +73,26 @@ namespace InstituteOfFineArts.Controllers
             public string RoleName { get; set; }
         }
         // Get list user of each role
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
+            var Administrators = await _userManager.GetUsersInRoleAsync("Administrator");
+            ViewData["Administrators"] = Administrators.Count();
+
+            var managers = await _userManager.GetUsersInRoleAsync("Manager");
+            ViewData["Managers"] = managers.Count();
+
+            var staffs = await _userManager.GetUsersInRoleAsync("Staff");
+            ViewData["Staffs"] = staffs.Count();
+
+            var students = await _userManager.GetUsersInRoleAsync("Student");
+            ViewData["Students"] = students.Count();
 
             return View();
         }
         public async Task<IActionResult> AccountList()
         {
+
             // get admin list
             var adminList = await _userManager.GetUsersInRoleAsync("Administrator");
             ViewData["AdminList"] = adminList.ToList();
@@ -105,11 +125,15 @@ namespace InstituteOfFineArts.Controllers
             if (ModelState.IsValid)
             {
                 var user = new CustomUser {
+                    FullName = input.FullName,
                     UserName = input.UserName,
                     Email = input.Email,
+                    Gender = input.Gender,
                     Address = input.Address,
                     PhoneNumber = input.Phone,
-                    DateOfBirth = input.DateOfBirth
+                    DateOfBirth = input.DateOfBirth,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
                 };
                 var createUserResult = await _userManager.CreateAsync(user, input.Password);
                 var createUserRoleResult = await _userManager.AddToRoleAsync(user, input.RoleName);
@@ -133,7 +157,7 @@ namespace InstituteOfFineArts.Controllers
 
             var accountDetail = await _context.Users.FindAsync(id);
             var accountRole = await _userManager.GetRolesAsync(accountDetail);
-            ViewData["AccountRole"] = accountRole.Count;
+            ViewData["AccountRole"] = accountRole;
             
             if (accountDetail == null)
             {
@@ -154,40 +178,50 @@ namespace InstituteOfFineArts.Controllers
             {
                 return NotFound();
             }
-            var currentRole = _context.UserRoles.Where(c=>c.UserId == id).Single();
-            ViewData["Role"] = new SelectList(_context.Roles, "Id", "Name", currentRole.RoleId);
+
+            var currentRole = await _userManager.GetRolesAsync(user);
+            ViewData["RoleList"] = new SelectList(_context.Roles, "Name", "Name", currentRole[0]);
             return View(user);
         }
         // Do edit task
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, CustomUser user)
+        public async Task<IActionResult> Edit(string id, CustomUser user, string role)
         {
             if (id != user.Id)
             {
                 return NotFound();
             }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var customUser = await _userManager.FindByIdAsync(id);
+                    customUser.FullName = user.FullName;
+                    customUser.Address = user.Address;
+                    customUser.PhoneNumber = user.PhoneNumber;
+                    customUser.DateOfBirth = user.DateOfBirth;
+                    customUser.Gender = user.Gender;
+                    customUser.Email = user.Email;
 
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        _context.Update<CustomUser>(user);
-            //        await _context.SaveChangesAsync();
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!UserExist(user.Id))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-            //    return RedirectToAction(nameof(Index));
-            //}
+                    var userRole = await _userManager.GetRolesAsync(customUser);
+                    await _userManager.RemoveFromRoleAsync(customUser, userRole[0]);
+                    await _userManager.AddToRoleAsync(customUser, role);
+                    await _userManager.UpdateAsync(customUser);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExist(user.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(AccountList));
+            }
 
             return new JsonResult(user);
         }

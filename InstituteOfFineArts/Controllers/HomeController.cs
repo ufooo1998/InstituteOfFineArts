@@ -129,6 +129,7 @@ namespace InstituteOfFineArts.Controllers
         {
             var user = await GetCurrentUserAsync();
             var userPosts = _context.CompetitionPost.Include(a=>a.Competition).Include(b=>b.Post).Where(c=>c.UserID == user.Id).ToList();
+            ViewData["User"] = user;
             return View(userPosts);
         }
 

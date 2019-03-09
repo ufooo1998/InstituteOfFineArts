@@ -17,141 +17,136 @@
         </div>
     }
 }
+<style>
+    .well {
+        background-color: #ffffff;
+    }
+</style>
 
+<div class="row">
+    <div class="col-lg-7">
+        <a class="btn btn-success" title="Create" asp-action="Create"><span class="ti-plus"></span></a>
+    </div>
+    <div class="col-lg-5" style="display:inline-flex;">
+        <div style="padding:12px 12px 0 12px"><span class='ti-search'></span></div>
+        <input style="background-color:#f5f5f5" class="form-control" id="myInput" type="text" placeholder="Type to search...">
+    </div>
 
-<p>
-    <a class="btn btn-success" title="Create" asp-action="Create"><span class="ti-plus"></span></a>
-</p>
-
-<h4>Administrators</h4>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th width="80%">User Name</th>
-            <th width="20%">Option</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            foreach (var item in admins)
-            {
-                <tr>
-                    <td width="80%">@item.UserName</td>
-                    <td width="20%">
-                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
-                            <span class="ti-pencil"></span>
-                        </a> 
-                        <a class="btn btn-block" asp-action="Details" asp-route-id="@item.Id">
-                            <span class="ti-list"></span>
-                        </a> 
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
-                            <span class="ti-trash"></span>
-                        </a>
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
-
+</div>
 <hr />
-<h4>Managers</h4>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th width="30%">User Name</th>
-            <th width="50%">Email</th>
-            <th width="20%">Option</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            foreach (var item in manager)
-            {
-                <tr>
-                    <td width="30%">@item.UserName</td>
-                    <td width="50%">@item.Email</td>
-                    <td width="20%">
-                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
-                            <span class="ti-pencil"></span>
-                        </a>
-                        <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">
-                            <span class="ti-list"></span>
-                        </a>
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
-                            <span class="ti-trash"></span>
-                        </a>
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
 
-<hr />
-<h4>Staffs</h4>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th width="30%">User Name</th>
-            <th width="50%">Email</th>
-            <th width="20%">Option</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            foreach (var item in staff)
-            {
-                <tr>
-                    <td width="30%">@item.UserName</td>
-                    <td width="50%">@item.Email</td>
-                    <td width="20%">
-                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
-                            <span class="ti-pencil"></span>
-                        </a>
-                        <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">
-                            <span class="ti-list"></span>
-                        </a>
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
-                            <span class="ti-trash"></span>
-                        </a>
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
+<div class="well">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Role</th>
+                <th>Option</th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            @{
+                //Admin
+                foreach (var item in admins)
+                {
+                    <tr>
+                        <td width="30%">@item.FullName</td>
+                        <td width="20%">@Html.DisplayFor(itemadmins => item.DateOfBirth)</td>
+                        <td width="10%">@item.Gender</td>
+                        <td width="20%">Administrator</td>
+                        <td width="20%">
+                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                                <span class="ti-pencil"></span>
+                            </a>
+                            <a class="btn btn-sm btn-warning" asp-action="Details" asp-route-id="@item.Id">
+                                <span class="ti-list"></span>
+                            </a>
+                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                <span class="ti-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                //Manager
+                foreach (var item in manager)
+                {
+                    <tr>
+                        <td width="30%">@item.FullName</td>
+                        <td width="20%">@Html.DisplayFor(itemmanager => item.DateOfBirth)</td>
+                        <td width="10%">@item.Gender</td>
+                        <td width="20%">Manager</td>
+                        <td width="20%">
+                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                                <span class="ti-pencil"></span>
+                            </a>
+                            <a class="btn btn-sm btn-warning" asp-action="Details" asp-route-id="@item.Id">
+                                <span class="ti-list"></span>
+                            </a>
+                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                <span class="ti-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
 
-<hr />
-<h4>Students</h4>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th width="30%">User Name</th>
-            <th width="50%">Email</th>
-            <th width="20%">Option</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            foreach (var item in student)
-            {
-        <tr>
-            <td width="30%">@item.UserName</td>
-            <td width="50%">@item.Email</td>
-            <td width="20%">
-                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
-                    <span class="ti-pencil"></span>
-                </a>
-                <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">
-                    <span class="ti-list"></span>
-                </a>
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
-                    <span class="ti-trash"></span>
-                </a>
-            </td>
-        </tr>
+                //Staff
+                foreach (var item in staff)
+                {
+                    <tr>
+                        <td width="30%">@item.FullName</td>
+                        <td width="20%">@Html.DisplayFor(itemstaff => item.DateOfBirth)</td>
+                        <td width="10%">@item.Gender</td>
+                        <td width="20%">Staff</td>
+                        <td width="20%">
+                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                                <span class="ti-pencil"></span>
+                            </a>
+                            <a class="btn btn-sm btn-warning" asp-action="Details" asp-route-id="@item.Id">
+                                <span class="ti-list"></span>
+                            </a>
+                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                <span class="ti-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                //Student
+                foreach (var item in student)
+                {
+                    <tr>
+                        <td width="30%">@item.FullName</td>
+                        <td width="20%">@Html.DisplayFor(itemstudent => item.DateOfBirth)</td>
+                        <td width="10%">@item.Gender</td>
+                        <td width="20%">Student</td>
+                        <td width="20%">
+                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                                <span class="ti-pencil"></span>
+                            </a>
+                            <a class="btn btn-sm btn-warning" asp-action="Details" asp-route-id="@item.Id">
+                                <span class="ti-list"></span>
+                            </a>
+                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                <span class="ti-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
