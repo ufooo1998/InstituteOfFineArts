@@ -22,23 +22,25 @@ namespace InstituteOfFineArts.Models
         public string Decription { get; set; }
 
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, dd/MM/yyyy}")]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
 
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, dd/MM/yyyy}")]
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd, dd/MM/yyyy}")]
         [Display(Name = "Award Date")]
         public DateTime AwardDate { get; set; }
 
         [Display(Name = "Create Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd - dd/MM/yyyy - HH:mm}")]
         public DateTime CreatedAt { get; set; }
 
         [Display(Name = "Last Update")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd - dd/MM/yyyy - HH:mm}")]
         public DateTime UpdatedAt { get; set; }
 
         public CompetitonStatus Status { get; set; }

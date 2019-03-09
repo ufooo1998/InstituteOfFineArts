@@ -8,10 +8,31 @@
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right" style="margin-right: -0px;">
             <li>
-                <a class="btn btn-default" asp-area="Identity" asp-page="/Account/Manage/Index" title="My Account"><span class="ti-user"></span></a>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a class="btn btn-default" style="padding: 7px 14px;" asp-controller="Administrators" asp-action="MyAccount" title="My Account"><span class="ti-user"></span></a>
+                }
+                else
+                {
+                    if (User.IsInRole("Staff"))
+                    {
+                        <a class="btn btn-default" style="padding: 7px 14px;" asp-controller="Staffs" asp-action="MyAccount" title="My Account"><span class="ti-user"></span></a>
+                    }
+                    else
+                    {
+                        if (User.IsInRole("Manager"))
+                        {
+                            <a class="btn btn-default" style="padding: 7px 14px;" asp-controller="Managers" asp-action="MyAccount" title="My Account"><span class="ti-user"></span></a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-default" style="padding: 7px 14px;" asp-controller="Home" asp-action="MyAccount" title="My Account"><span class="ti-user"></span></a>
+                        }
+                    }
+                }
             </li>
             <li>
-                <button class="btn btn-danger" type="submit"><span class="ti-arrow-right"></span></button>
+                <button class="btn btn-danger" title="Logout" type="submit"><span class="ti-share"></span></button>
             </li>
         </ul>
     </form>
