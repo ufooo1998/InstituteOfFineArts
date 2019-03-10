@@ -1,0 +1,87 @@
+﻿@model InstituteOfFineArts.Areas.Identity.Data.CustomUser;
+@{ 
+    ViewData["Title"] = "Edit Information";
+}
+
+
+<style>
+    .s-pageheader--home {
+        min-height: 255px;
+        padding-top: 222px;
+    }
+
+    .well {
+        background-color: white;
+    }
+</style>
+<div class="pageheader-content row">
+    <div class="container">
+    </div>
+</div>
+</section> <!-- end s-pageheader -->
+
+    @if (TempData["Faile"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Failed!</strong> @TempData["Faile"]
+        </div>
+    }
+
+<div class="well">
+    <form asp-action="EditInfo">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-5">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="FullName" class="control-label"></label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Account Name</label>
+                        <input asp-for="UserName" class="form-control" disabled value="@Model.UserName"/>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-5">
+
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Gender" class="control-label"></label>
+                        <select asp-for="Gender" class="form-control" asp-items="@Html.GetEnumSelectList<InstituteOfFineArts.Areas.Identity.Data.Gender>()"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="control-label"></label>
+                        <input asp-for="DateOfBirth" type="date" class="form-control" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")"
+                        min="1900-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")"/>
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+

@@ -6,10 +6,9 @@
 }
 
 <div>
-    <a class="btn btn-default" asp-action="AccountList"><span class="ti-control-backward"></span></a>
+    <a class="btn btn-default" onclick="goBack()"><span class="ti-control-backward"></span></a>
+    <hr />
 </div>
-<hr />
-@ViewData["test"]
 <form asp-action="Edit">
     <div class="well">
         <div class="row">
@@ -67,3 +66,8 @@
 
 </form>
 
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>

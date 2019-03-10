@@ -32,5 +32,9 @@ namespace InstituteOfFineArts.Models
         [Display(Name = "Submit Date")]
         public DateTime SubmitDate { get; set; }
 
+        public bool Available { get; set; }
+
+        public DateTime DeletedAt { get; set; }
+
     }
 }

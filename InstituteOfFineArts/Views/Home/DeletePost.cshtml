@@ -1,0 +1,50 @@
+﻿@model InstituteOfFineArts.Models.CompetitionPost
+
+<style>
+    .s-pageheader--home {
+        min-height: 255px;
+        padding-top: 222px;
+    }
+</style>
+<div class="pageheader-content row">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</div>
+    </section> <!-- end s-pageheader -->
+
+<div class="content">
+    <div class="container">
+        <hr />
+        <div class="row">
+            <div class="col-lg-6">
+                <dl>
+                    <dt>Post Name:</dt>
+                    <dd>@Model.Post.PostName</dd>
+
+                    <dt>Description:</dt>
+                    <dd>@Model.Post.Decription</dd>
+
+                    <dt>Post Time</dt>
+                    <dd>@Html.DisplayFor(model => model.Post.CreatedAt)</dd>
+
+                    <dt>Competition:</dt>
+                    <dd>@Model.Competition.CompetitionName</dd>
+                </dl>
+                <form asp-action="Delete">
+                    <input type="hidden" name="id" value="@Model.Post.ID" />
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    <a class="btn btn-default" asp-action="MyAccount">Cancel</a>
+                </form>
+                
+            </div>
+                
+            <div class="col-lg-6">
+                <div class="full-width">
+                    <img class="img-responsive" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Post.Image)" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,9 +3,17 @@
     ViewData["Title"] = "My Account";
     ViewData["MyAccount"] = "active";
 }
-<div class="container-fluid well"  style="font-size: 18px">
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close"  style="right: -6px;">&times;</a>
+        <strong>Successed!</strong> @TempData["Success"]
+    </div>
+}
+
+<div class="container-fluid well" style="font-size: 18px">
     <div class="row">
-        <b>YOUR INFORMATION</b>
+        <b>MY INFORMATION</b>
         <hr />
         <div class="col-lg-6">
             <dl>
@@ -29,13 +37,13 @@
                 <dd>@Model.PhoneNumber</dd>
 
                 <dt>Date of Birth:</dt>
-                <dd>@Model.DateOfBirth.ToLongDateString()</dd>
+                <dd>@Html.DisplayFor(model => model.DateOfBirth)</dd>
 
                 <dt>Gender:</dt>
                 <dd>@Model.Gender</dd>
             </dl>
         </div>
     </div>
-    <a class="btn btn-primary">Change Informaition</a>
-    <a class="btn btn-warning">Change Password</a>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Change Informaition</a>
+    <a class="btn btn-warning" asp-action="ChangePassword">Change Password</a>
 </div>
