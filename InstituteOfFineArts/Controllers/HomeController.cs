@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.Encodings.Web;
 
 namespace InstituteOfFineArts.Controllers
 {
@@ -93,6 +94,8 @@ namespace InstituteOfFineArts.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Attend([Bind("PostName,Decription")] Post post, IFormFile Image, int id)
         {
+            EmailCofirm emailCofirm = new EmailCofirm();
+
             if (ModelState.IsValid)
             {
                 var user = await GetCurrentUserAsync();
@@ -102,11 +105,20 @@ namespace InstituteOfFineArts.Controllers
                     post.Image = ms.ToArray();
                 }
 
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { userId = user.Id, code = code },
+                        protocol: Request.Scheme);
+
                 post.CreatedAt = DateTime.Now;
                 post.UpdatedAt = DateTime.Now;
                 post.UserID = user.Id;
+               
                 _context.Add(post);
                 _context.CompetitionPost.Add(new CompetitionPost { CompetitionID = id, PostID = post.ID, UserID = user.Id, SubmitDate = DateTime.Now });
+                emailCofirm.SendMail(user.Email, user.UserName, $"You posted an entry < a href = '{HtmlEncoder.Default.Encode(callbackUrl)}' > clicking here </ a >.");
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(MyAccount));
             }

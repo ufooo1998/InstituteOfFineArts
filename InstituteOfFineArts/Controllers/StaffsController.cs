@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using InstituteOfFineArts.Areas.Identity.Data;
 using InstituteOfFineArts.Models;
@@ -82,14 +83,19 @@ namespace InstituteOfFineArts.Controllers
         {
             if (ModelState.IsValid)
             {
+                EmailCofirm emailCofirm = new EmailCofirm();
                 if ( competition.StartDate < competition.EndDate)
                 {
+                    var user = _userManager.Users.SingleOrDefault(u => u.Id == competition.UserID);
                     competition.CreatedAt = DateTime.Now;
                     competition.UpdatedAt = DateTime.Now;
                     competition.AwardDate = competition.EndDate.AddDays(2);
                     competition.StartDate = competition.StartDate.Date;
                     CheckStatus(competition);
                     _context.Add(competition);
+
+                    emailCofirm.SendMail(user.Email,user.UserName, $"You are selected as a judge for a competition < a href = '{HtmlEncoder.Default.Encode("https://localhost:44312/Staffs/DetailsCompetition/" + competition.ID)}' > clicking here </ a >.");
+
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(CompetitionList));
                 }

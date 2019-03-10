@@ -31,8 +31,8 @@ namespace InstituteOfFineArts.Controllers
         public async Task<IActionResult> Index()
         {
             var instituteOfFineArtsContext = _context.Post.Include(p => p.User);
-            return View(await instituteOfFineArtsContext.ToListAsync());
-        }
+                return View(await instituteOfFineArtsContext.ToListAsync());
+            }
 
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
