@@ -5,7 +5,11 @@
     var role = ViewData["AccountRole"] as List<string>;
 }
 
-
+<div>
+    <a class="btn btn-default" onclick="goBack()"><span class="ti-control-backward"></span></a>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id" style="float:right"><span class="ti-pencil"></span></a>
+    <hr />
+</div>
 <div class="content">
     <div class="container-fluid" style="font-size:18px">
         <div class="row well">
@@ -29,14 +33,6 @@
                     @Html.DisplayFor(model => model.Address)
                 </dd>
                 <dt>
-                    Date of Birth:
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.DateOfBirth)
-                </dd>
-            </dl>
-            <dl class="col-lg-6">
-                <dt>
                     Email:
                 </dt>
                 <dd>
@@ -47,6 +43,26 @@
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.Gender)
+                </dd>
+            </dl>
+            <dl class="col-lg-6">
+                <dt>
+                    Date of Birth:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateOfBirth)
+                </dd>
+                <dt>
+                    Created Date:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.CreatedAt)
+                </dd>
+                <dt>
+                    Last Update:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UpdatedAt)
                 </dd>
                 <dt>
                     Role:
@@ -62,3 +78,8 @@
     </div>
 </div>
 
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>

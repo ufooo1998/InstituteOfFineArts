@@ -43,6 +43,10 @@ namespace InstituteOfFineArts.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd - dd/MM/yyyy - HH:mm}")]
         public DateTime UpdatedAt { get; set; }
 
+        public DateTime DeletedAt { get; set; }
+
+        public bool Available { get; set; }
+
         public CompetitonStatus Status { get; set; }
 
         public string UserID { get; set; }

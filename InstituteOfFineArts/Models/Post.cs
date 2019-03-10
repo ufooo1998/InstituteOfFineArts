@@ -22,9 +22,6 @@ namespace InstituteOfFineArts.Models
         [Display(Name = "Decription")]
         public string Decription { get; set; }
 
-        [Display(Name = "Start Date")]
-        public int Price { get; set; }
-
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd - dd/MM/yyyy - HH:mm}")]
         [Display(Name = "Create Date")]
         public DateTime CreatedAt { get; set; }
@@ -32,6 +29,9 @@ namespace InstituteOfFineArts.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dddd - dd/MM/yyyy - HH:mm}")]
         [Display(Name = "Last Update")]
         public DateTime UpdatedAt { get; set; }
+        public DateTime DeletedAt { get; set; }
+
+        public bool Available { get; set; }
 
         [Display(Name = "Author")]
         public string UserID { get; set; }

@@ -17,15 +17,23 @@
 
 <div class="content">
     <div class="container">
+        @if (@TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" style="right: -6px;">&times;</a>
+                <strong>Successed!</strong> @TempData["Success"]
+            </div>
+        }
+
         <hr />
-        <div class="container-fluid">
-            <div class="row well">
+        <div class="container-fluid well">
+            <div class="row">
                 <b>YOUR INFORMATION</b>
                 <hr />
                 <div class="col-lg-6">
                     <dl>
                         <dt>Full Name:</dt>
-                        <dd>a</dd>
+                        <dd>@user.FullName</dd>
 
                         <dt>Account Name:</dt>
                         <dd>@user.UserName</dd>
@@ -44,19 +52,22 @@
                         <dd>@user.PhoneNumber</dd>
 
                         <dt>Date of Birth:</dt>
-                        <dd>@user.DateOfBirth</dd>
+                        <dd>@user.DateOfBirth.ToLongDateString()</dd>
 
                         <dt>Gender:</dt>
-                        <dd>a</dd>
+                        <dd>@user.Gender</dd>
                     </dl>
                 </div>
-                <div>
-                    <a class="btn btn-primary">Change Informaition</a>
-                    <a class="btn btn-warning">Change Password</a>
-                </div>
             </div>
+            <a class="btn btn-primary" asp-action="EditInfo">Change Informaition</a>
+            <a class="btn btn-warning" asp-action="ChangePassword">Change Password</a>
         </div>
 
+        <hr />
+        <div class="col-lg-6" style="display:inline-flex;">
+            <div style="padding:18px 18px 0 12px"><span class='ti-search'></span></div>
+            <input style="background-color:#f5f5f5" class="form-control" id="myInput" type="text" placeholder="Type to search...">
+        </div>
         <hr />
         <table class="table">
             <thead>
@@ -69,7 +80,7 @@
                     <td width="10%"><b>Option</b></td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="myTable">
                 @{
                     foreach (var item in Model)
                     {
@@ -83,7 +94,10 @@
                             <td>@item.Post.Decription</td>
                             <td>@Html.DisplayFor(modelItem => item.Post.CreatedAt)</td>
                             <td>@item.Competition.CompetitionName</td>
-                            <td><a class="btn btn-warning">EDIT</a></td>
+                            <td>
+                                <a class="btn btn-warning" title="Edit" asp-action="EditPost" asp-route-id="@item.Post.ID"><span class="ti-pencil-alt"></span></a>
+                                <a class="btn btn-danger" title="Delete" asp-action="DeletePost" asp-route-id="@item.Post.ID"><span class="ti-trash"></span></a>
+                            </td>
                         </tr>
                     }
                 }
@@ -92,3 +106,14 @@
 
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

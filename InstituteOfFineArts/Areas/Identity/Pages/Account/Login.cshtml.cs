@@ -38,7 +38,7 @@ namespace InstituteOfFineArts.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$",ErrorMessage = "Input contain invalid characters")]
+            [RegularExpression("^[A-Za-z]+$", ErrorMessage = "Input invalid")]
             [Display(Name ="User Name")]
             public string UserName { get; set; }
 

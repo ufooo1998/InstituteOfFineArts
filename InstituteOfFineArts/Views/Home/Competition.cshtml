@@ -66,12 +66,9 @@
                             </ul>
                         </div>
                     </div> <!-- end entry__content -->
-
                 </div> <!-- end entry -->
-
             </div> <!-- end featured__small -->
         </div> <!-- end featured -->
-
     </div> <!-- end col-full -->
 </div> <!-- end pageheader-content row -->
 </section> <!-- end s-pageheader -->
@@ -79,28 +76,52 @@
 
 <div class="content">
     <div class="container">
-        <hr />
-        <h2>Competitions</h2>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <td><b>Name</b></td>
-                    <td><b>Decription</b></td>
-                    <td><b>Status</b></td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <br />
+        <div class="well" style="background-color:white;">
+            <div class="row">
+                <div class="col-lg-7">
+                    <h2>Competitions</h2>
+                </div>
+                <div class="col-lg-5" style="display:inline-flex;">
+                    <div style="padding:18px 18px 0 12px"><span class='ti-search'></span></div>
+                    <input style="background-color:#f5f5f5" class="form-control" id="myInput" type="text" placeholder="Type to search...">
+                </div>
+            </div>
+           
+            <hr />
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <td width="20%">@item.CompetitionName</td>
-                        <td width="50%">@item.Decription</td>
-                        <td width="20%">@item.Status</td>
-                        <td width="10%"><a asp-action="CompetitionDetails" asp-route-id="@item.ID">Details</a></td>
+                        <td><b>Name</b></td>
+                        <td><b>Decription</b></td>
+                        <td><b>Status</b></td>
+                        <td></td>
                     </tr>
-                }
-             </tbody>
-        </table>
+                </thead>
+                <tbody id="myTable">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td width="20%">@item.CompetitionName</td>
+                            <td width="50%">@item.Decription</td>
+                            <td width="20%">@item.Status</td>
+                            <td width="10%"><a asp-action="CompetitionDetails" asp-route-id="@item.ID" class="btn btn-warning" title="More"><span class="ti-angle-double-right"></span></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
