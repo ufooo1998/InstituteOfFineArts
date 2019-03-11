@@ -110,6 +110,7 @@ namespace InstituteOfFineArts.Controllers
             ViewData["Posts"] = posts;
             return View(competition);
         }
+
         [Authorize(Roles = "Student")]
         public IActionResult Attend(int? id)
         {

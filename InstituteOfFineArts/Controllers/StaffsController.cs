@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace InstituteOfFineArts.Controllers
 {
-    //[Authorize(Roles = "Staff")]
+    [Authorize(Roles = "Staff")]
     public class StaffsController : Controller
     {
         private readonly UserManager<CustomUser> _userManager;
