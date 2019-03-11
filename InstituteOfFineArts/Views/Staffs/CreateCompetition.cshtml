@@ -6,9 +6,9 @@
 }
 <div>
     <a class="btn btn-default" asp-action="CompetitionList"><span class="ti-control-backward"></span></a>
-    @if (TempData["DateError"] != null)
+    @if (TempData["Error"] != null)
     {
-        <p class="alert-danger">@TempData["DateError"]</p>
+        <p class="alert-danger">@TempData["Error"]</p>
     }
 </div>
 <hr />
@@ -21,13 +21,13 @@
                 <input asp-for="CompetitionName" class="form-control" />
                 <span asp-validation-for="CompetitionName" class="text-danger"></span>
             </div>
-            
+
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
                 <input asp-for="StartDate" type="date" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
-            
+
             <div class="form-group">
                 <label class="control-label">Staff</label>
                 <select name="UserID" class="form-control" asp-items="ViewBag.UserID"></select>

@@ -84,21 +84,32 @@
                 @{
                     foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                <div class="full-width">
-                                    <img class="img-responsive" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Post.Image)" />
-                                </div>
-                            </td>
-                            <td>@item.Post.PostName</td>
-                            <td>@item.Post.Decription</td>
-                            <td>@Html.DisplayFor(modelItem => item.Post.CreatedAt)</td>
-                            <td>@item.Competition.CompetitionName</td>
-                            <td>
-                                <a class="btn btn-warning" title="Edit" asp-action="EditPost" asp-route-id="@item.Post.ID"><span class="ti-pencil-alt"></span></a>
-                                <a class="btn btn-danger" title="Delete" asp-action="DeletePost" asp-route-id="@item.Post.ID"><span class="ti-trash"></span></a>
-                            </td>
-                        </tr>
+                <tr>
+                    <td>
+                        <div class="full-width">
+                            <img class="img-responsive" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Post.Image)" />
+                        </div>
+                    </td>
+                    <td>@item.Post.PostName</td>
+                    <td>@item.Post.Decription</td>
+                    <td>@Html.DisplayFor(modelItem => item.Post.CreatedAt)</td>
+                    <td>@item.Competition.CompetitionName</td>
+                    @if (item.Competition.Status == CompetitonStatus.Ongoing)
+                    {
+                        <td>
+                            <a class="btn btn-warning" title="Edit" asp-action="EditPost" asp-route-id="@item.Post.ID"><span class="ti-pencil-alt"></span></a>
+                            <a class="btn btn-danger" title="Delete" asp-action="DeletePost" asp-route-id="@item.Post.ID"><span class="ti-trash"></span></a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a class="btn btn-warning disabled" title="Edit" asp-action="EditPost" asp-route-id="@item.Post.ID"><span class="ti-pencil-alt"></span></a>
+                            <a class="btn btn-danger disabled" title="Delete" asp-action="DeletePost" asp-route-id="@item.Post.ID"><span class="ti-trash"></span></a>
+                        </td>
+                    }
+
+                </tr>
                     }
                 }
             </tbody>

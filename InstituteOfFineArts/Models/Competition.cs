@@ -59,7 +59,7 @@ namespace InstituteOfFineArts.Models
     public enum CompetitonStatus
     {
         Ended = 0,
-        During = 1,
+        Ongoing = 1,
         Examining = 2,
         ComingUp = 3
     }

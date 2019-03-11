@@ -1,4 +1,5 @@
-﻿
+﻿@model InstituteOfFineArts.Areas.Identity.Data.CustomUser
+@using Newtonsoft.Json;
 @{
     ViewData["Title"] = "Examining Post";
     ViewData["Mark"] = "active";
@@ -22,14 +23,40 @@
             @foreach (var item in (List<CompetitionPost>)ViewData["PostList"])
             {
             <tr>
-                <td><img class="img-responsive full-width" height="150px" width="150px" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Post.Image)" /></td>
+                <td><img class="img-responsive full-width" height="150" width="150" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Post.Image)" /></td>
                 <td>@item.Post.PostName</td>
-                <td>@item.PostPoint</td>
-                <td>
-                    <a class="btn btn-secondary" title="Mark this post" asp-action="MarkPost" asp-route-id="@item.Post.ID">
-                        <span class="ti-pencil-alt"></span>
-                    </a>
-                </td>
+                @if (item.StaffSubmit != null)
+                {
+                    var obj = JsonConvert.DeserializeObject<List<StaffSubmitList>>(item.StaffSubmit);
+                    var x = obj.Find(a => a.StaffId == Model.Id);
+                    if (x != null)
+                    {
+                        <td>@x.Point</td>
+                        <td>
+                            <a class="btn btn-secondary disabled" asp-action="MarkPost" asp-route-id="@item.Post.ID">
+                                <span class="ti-pencil-alt"></span>
+                            </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>Not Score</td>
+                        <td>
+                            <a class="btn btn-secondary" title="Mark this post" asp-action="MarkPost" asp-route-id="@item.Post.ID">
+                                <span class="ti-pencil-alt"></span>
+                            </a>
+                        </td>
+                    }
+                }
+                else
+                {
+                    <td>Not Score</td>
+                    <td>
+                        <a class="btn btn-secondary" title="Mark this post" asp-action="MarkPost" asp-route-id="@item.Post.ID">
+                            <span class="ti-pencil-alt"></span>
+                        </a>
+                    </td>
+                }
             </tr>
             }
         </tbody>

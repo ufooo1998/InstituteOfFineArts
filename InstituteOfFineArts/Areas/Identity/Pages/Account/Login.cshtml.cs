@@ -10,19 +10,22 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using InstituteOfFineArts.Models;
 
 namespace InstituteOfFineArts.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
+        private readonly InstituteOfFineArtsContext _context;
         private readonly SignInManager<CustomUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<CustomUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<CustomUser> signInManager, InstituteOfFineArtsContext context, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         [BindProperty]
@@ -75,6 +78,13 @@ namespace InstituteOfFineArts.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var statusCheck = _context.Users.Where(a=>a.UserName == Input.UserName).SingleOrDefault().Status;
+                if (statusCheck == AccountStatus.Inactivate)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
