@@ -1,46 +1,136 @@
 ﻿@model InstituteOfFineArts.Areas.Identity.Data.CustomUser;
 @{
     ViewData["Title"] = "Details";
+    var listpost = ViewData["ListPost"] as List<CompetitionPost>;
+    var checkrole = ViewData["Checkrole"] as string;
 }
+<div>
+    <a class="btn btn-default" onclick="goBack()"><span class="ti-control-backward"></span></a>
+    <hr />
+</div>
+<div>
+    <div class="col-lg-7">
+        <dl class="dl-horizontal">
+            <dt>
+                User Name
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+            <dt>
+                Full Name
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FullName)
+            </dd>
+            <dt>
+                Email
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt>
+                Phone Number
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+            <dt>
+                Role
+            </dt>
+            <dd>
+                @checkrole
+            </dd>
+        </dl>
+    </div>
+    <div class="col-lg-5">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Gender)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Gender)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedAt)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdatedAt)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedAt)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
 
-<h2>Details</h2>
+        </dl>
+    </div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    @if (checkrole == "Staff")
+    {
+        <p></p>
+    }
+    else
+    {
+        <div style="padding:50px 150px">
+            <table class="table">
+                <legend >Information Competition</legend>
+                <thead>
+                    
+                    <tr>
+                        <td width="80%">
+                            Competition Name
+                        </td>
+                        <td width="10%"> PostName</td>
+                    </tr>
 
-<hr />
-<dl class="dl-horizontal">
-    <dt>
-        Id
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.Id)
-    </dd>
-    <dt>
-        User Name
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.UserName)
-    </dd>
-    <dt>
-        Email
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.Email)
-    </dd>
-    <dt>
-        Phone Number
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.PhoneNumber)
-    </dd>
-    <dt>
-        post
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.Posts)
-    </dd>
-    <dt>
-        Role
-    </dt>
-    <dd>
-        @ViewData["AccountRole"]
-    </dd>
-</dl>
+                </thead>
+                <tbody>
+                    @if (ViewData["PostUser"] != null)
+                    {
+                        @foreach (var i in (List<CompetitionPost>)ViewData["PostUser"])
+                        {
+                            <tr>
+
+                                <td>
+                                    @i.Competition.CompetitionName
+                                </td>
+                                <td>@i.Post.PostName</td>
+                            </tr>
+
+                        }
+                    }
+                    else
+                    {
+                        <p></p>
+
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+    }
+
+
+
+</div>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
