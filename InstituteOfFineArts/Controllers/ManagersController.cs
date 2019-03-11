@@ -37,75 +37,109 @@ namespace InstituteOfFineArts.Controllers
 
             return View();
         }
-
-
-        public async Task<IActionResult> Edit(string id, string URL)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var currentRole = _context.UserRoles.Where(c => c.UserId == id).Single();
-            ViewData["Role"] = new SelectList(_context.Roles, "Id", "Name", currentRole.RoleId);
-            return View(user);
-        }
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var accountDetail = await _context.Users.FindAsync(id);
-            var accountRole = await _userManager.GetRolesAsync(accountDetail);
-            ViewData["AccountRole"] = accountRole.Count;
-
-            if (accountDetail == null)
-            {
-                return NotFound();
-            }
-            return View(accountDetail);
-        }
-        // Do edit task
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, CustomUser user)
-        {
-            if (id != user.Id)
-            {
-                return NotFound();
-            }
-            var existedit = _userManager.Users.SingleOrDefault(u=>u.Id == user.Id);
-            if(existedit == null)
-            {
-                return NotFound();
-            }
-            existedit.PhoneNumber = user.PhoneNumber;
-            existedit.DateOfBirth = user.DateOfBirth;
-            existedit.Address = user.Address;
-            _context.Users.Update(existedit);
-            _context.SaveChanges();
-            return new JsonResult(user);
-        }
-
+        
         public async Task<IActionResult> IndexCompe()
         {
             //var instituteOfFineArtsContext = _context.Competition.Include(c => c.User);
             //return View(await instituteOfFineArtsContext.ToListAsync());
             return Redirect("/Competitions/Index");
         }
-        public async Task<IActionResult> IndexPost()
+        public async Task<IActionResult> CompetitionList()
         {
-            //var instituteOfFineArtsContext = _context.Competition.Include(c => c.User);
-            //return View(await instituteOfFineArtsContext.ToListAsync());
-            return Redirect("/posts/Index");
+            UpdateStatus();
+            var instituteOfFineArtsContext = _context.Competition.Include(c => c.User);
+            return View(await instituteOfFineArtsContext.ToListAsync());
+            
         }
+
+        public async Task<IActionResult> DetailsCompetition(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var competition = await _context.Competition
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (competition == null)
+            {
+                return NotFound();
+            }
+
+            // Get list post of competition
+            var competitionPosts = _context.CompetitionPost.Where(c => c.CompetitionID == id).Include(c => c.Post).ThenInclude(c => c.User).ToList();
+            ViewData["PostList"] = competitionPosts;
+
+            return View(competition);
+        }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            
+            var accountDetail = _context.Users.Find(id);
+            ViewData["PostUser"] = _context.CompetitionPost
+                .Include(a => a.Competition)
+                .Include(b => b.Post)
+                .Where(d => d.UserID == id).ToList();
+            var checkrole = _context.UserRoles.SingleOrDefault(m=>m.UserId == id);
+            var rolename = _context.Roles.Find(checkrole.RoleId);
+            ViewData["Checkrole"] = rolename.Name;
+            //var postuser = _context.CompetitionPost
+            //    .Include(p => p.Post)
+            //    .ThenInclude(u => u.User)
+            //    .Where(m=>m.UserID == id).ToList();
+            //var accountRole = await _userManager.GetRolesAsync(accountDetail);
+            //ViewData["AccountRole"] = accountRole.Count;
+            //ViewData["ListPost"] = postuser;
+            if (accountDetail == null)
+            {
+                return NotFound();
+            }
+            return View(accountDetail);
+        }
+        public async Task<IActionResult> MyAccount()
+        {
+            var user = await GetCurrentUserAsync();
+            ViewData["Role"] = _context.Roles.Find(_context.UserRoles.Where(c => c.UserId == user.Id).Single().RoleId);
+            return View(user);
+        }
+        private Task<CustomUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        private void UpdateStatus()
+        {
+            var competitionList = _context.Competition.ToList();
+            for (int i = 0; i < competitionList.Count; i++)
+            {
+                if (competitionList[i].StartDate <= DateTime.Now.Date && DateTime.Now.Date <= competitionList[i].EndDate)
+                {
+                    competitionList[i].Status = CompetitonStatus.During;
+                }
+                else
+                {
+                    if (DateTime.Now.Date < competitionList[i].StartDate && DateTime.Now.Date < competitionList[i].EndDate)
+                    {
+                        competitionList[i].Status = CompetitonStatus.ComingUp;
+                    }
+                    else
+                    {
+                        if (competitionList[i].StartDate.Date < DateTime.Now.Date && competitionList[i].EndDate.Date < DateTime.Now.Date)
+                        {
+                            competitionList[i].Status = CompetitonStatus.Ended;
+                        }
+                        if (competitionList[i].EndDate.Date < DateTime.Now.Date && DateTime.Now.Date <= competitionList[i].AwardDate.Date)
+                        {
+                            competitionList[i].Status = CompetitonStatus.Examining;
+                        }
+                    }
+                }
+                _context.Update(competitionList[i]);
+                _context.SaveChanges();
+            }
+        }
+
     }
 }

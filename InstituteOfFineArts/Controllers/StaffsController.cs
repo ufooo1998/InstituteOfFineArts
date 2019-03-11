@@ -58,8 +58,7 @@ namespace InstituteOfFineArts.Controllers
             {
                 return NotFound();
             }
-
-            // Get list post of competition
+           
             var competitionPosts = _context.CompetitionPost.Where(c => c.CompetitionID == id).Include(c => c.Post).ThenInclude(c => c.User).ToList();
             ViewData["PostList"] = competitionPosts;
 
@@ -190,7 +189,7 @@ namespace InstituteOfFineArts.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var competition = await _context.Competition.FindAsync(id);
-            _context.Competition.Remove(competition);
+            competition.Available = false;           
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(CompetitionList));
         }
@@ -356,5 +355,6 @@ namespace InstituteOfFineArts.Controllers
                 _context.SaveChanges();
             }
         }
+        
     }
 }
