@@ -52,20 +52,20 @@ namespace InstituteOfFineArts.Controllers
 
         public IActionResult Index()
         {
-            ViewData["During"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.During).OrderByDescending(c => c.CreatedAt).ToList();
-            ViewData["ComingUp"] = _context.Competition.Where(c => c.Status == CompetitonStatus.ComingUp).OrderByDescending(c => c.CreatedAt).ToList();
-            ViewData["Examining"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Examining).OrderByDescending(c => c.CreatedAt).ToList();
-            ViewData["Ended"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ended).OrderByDescending(c => c.CreatedAt).ToList();
+            ViewData["Ongoing"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ongoing).OrderByDescending(c => c.CreatedAt).FirstOrDefault();
+            ViewData["ComingUp"] = _context.Competition.Where(c => c.Status == CompetitonStatus.ComingUp).OrderByDescending(c => c.CreatedAt).FirstOrDefault();
+            ViewData["Examining"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Examining).OrderByDescending(c => c.CreatedAt).FirstOrDefault();
+            ViewData["Ended"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ended).OrderByDescending(c => c.CreatedAt).FirstOrDefault();
 
             return View();
         }
 
         public IActionResult Competition()
         {
-            ViewData["During"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.During).OrderByDescending(c => c.CreatedAt).ToList();
-            ViewData["ComingUp"] = _context.Competition.Where(c => c.Status == CompetitonStatus.ComingUp).OrderByDescending(c => c.CreatedAt).ToList();
-            ViewData["Examining"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Examining).OrderByDescending(c => c.CreatedAt).ToList();
-            ViewData["Ended"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ended).OrderByDescending(c => c.CreatedAt).ToList();
+            ViewData["Ongoing"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ongoing).OrderByDescending(c => c.CreatedAt).FirstOrDefault();
+            ViewData["ComingUp"] = _context.Competition.Where(c => c.Status == CompetitonStatus.ComingUp).OrderByDescending(c => c.CreatedAt).FirstOrDefault();
+            ViewData["Examining"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Examining).OrderByDescending(c => c.CreatedAt).FirstOrDefault();
+            ViewData["Ended"] = _context.Competition.Include(a => a.CompetitionPosts).Where(c => c.Status == CompetitonStatus.Ended).OrderByDescending(c => c.CreatedAt).FirstOrDefault();
 
             var competitionList = _context.Competition.OrderByDescending(a => a.CreatedAt).ToList();
             return View(competitionList);
@@ -87,7 +87,7 @@ namespace InstituteOfFineArts.Controllers
                 ViewData["IsStudent"] = IsStudentRole.Result;
             }
 
-            // check number post of user
+            // check number post of current user
             if (user != null)
             {
                 var userPost = _context.CompetitionPost.Where(a => a.UserID == user.Id && a.CompetitionID == id).Count();
@@ -98,6 +98,11 @@ namespace InstituteOfFineArts.Controllers
                 }
             }
 
+            var competitionCheck = _context.Competition.Find(id);
+            if (competitionCheck.Status == CompetitonStatus.Ended)
+            {
+                ViewData["winner"] = _context.CompetitionPost.Include(c => c.Post).ThenInclude(d => d.User).Where(a => a.CompetitionID == id).OrderByDescending(b => b.PostPoint).First();
+            }
 
             // get list of post and its information
             var competition = await _context.Competition.Include(a => a.User).FirstOrDefaultAsync(m => m.ID == id);
@@ -106,8 +111,17 @@ namespace InstituteOfFineArts.Controllers
             return View(competition);
         }
         [Authorize(Roles = "Student")]
-        public IActionResult Attend(int id)
+        public IActionResult Attend(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var competition = _context.Competition.Find(id);
+            if (competition == null || competition.Available == false)
+            {
+                return NotFound();
+            }
             ViewData["id"] = id;
             return View();
         }
@@ -127,6 +141,12 @@ namespace InstituteOfFineArts.Controllers
                     Image.CopyTo(ms);
                     post.Image = ms.ToArray();
                 }
+                post.CreatedAt = DateTime.Now;
+                post.UpdatedAt = DateTime.Now;
+                post.UserID = user.Id;
+                post.Available = true;
+                _context.Add(post);
+                _context.CompetitionPost.Add(new CompetitionPost { CompetitionID = id, PostID = post.ID, UserID = user.Id, SubmitDate = DateTime.Now, Available = true });
 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var callbackUrl = Url.Page(
@@ -135,12 +155,7 @@ namespace InstituteOfFineArts.Controllers
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                post.CreatedAt = DateTime.Now;
-                post.UpdatedAt = DateTime.Now;
-                post.UserID = user.Id;
-               
-                _context.Add(post);
-                _context.CompetitionPost.Add(new CompetitionPost { CompetitionID = id, PostID = post.ID, UserID = user.Id, SubmitDate = DateTime.Now });
+
                 emailCofirm.SendMail(user.Email, user.UserName, $"You posted an entry < a href = '{HtmlEncoder.Default.Encode(callbackUrl)}' > clicking here </ a >.");
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(MyAccount));
@@ -324,7 +339,7 @@ namespace InstituteOfFineArts.Controllers
                 return NotFound();
             }
 
-            var userPost = _context.CompetitionPost.Include(a=>a.Competition).Include(b=>b.Post).Where(c=>c.PostID==id).SingleOrDefault();
+            var userPost = _context.CompetitionPost.Include(a => a.Competition).Include(b => b.Post).Where(c => c.PostID == id).SingleOrDefault();
             if (userPost == null)
             {
                 return NotFound();
@@ -342,7 +357,7 @@ namespace InstituteOfFineArts.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var post = _context.CompetitionPost.Include(a=>a.Post).Where(b=>b.PostID == id).SingleOrDefault();
+            var post = _context.CompetitionPost.Include(a => a.Post).Where(b => b.PostID == id).SingleOrDefault();
             post.Available = false;
             post.Post.Available = false;
             _context.Update(post);

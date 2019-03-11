@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Competition";
-    ViewData["CompetitionList"] = "active"; 
+    ViewData["Competition"] = "active"; 
 }
 <p>
     <a class="btn btn-success" title="Create" asp-action="CreateCompetition"><span class="ti-plus"></span></a>
@@ -39,15 +39,31 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
-                    <a class="btn btn-primary" title="Edit" asp-action="EditCompetition" asp-route-id="@item.ID">
-                        <span class="ti-pencil"></span>
-                    </a>
-                    <a class="btn btn-warning" title="Detail" asp-action="DetailsCompetition" asp-route-id="@item.ID">
-                        <span class="ti-list"></span>
-                    </a>
-                    <a class="btn btn-danger" title="Delete" asp-action="DeleteCompetition" asp-route-id="@item.ID">
-                        <span class="ti-trash"></span>
-                    </a>
+                    @if (item.Status == CompetitonStatus.Ongoing || item.Status == CompetitonStatus.ComingUp)
+                    {
+                        <a class="btn btn-primary" title="Edit" asp-action="EditCompetition" asp-route-id="@item.ID">
+                            <span class="ti-pencil"></span>
+                        </a>
+                        <a class="btn btn-warning" title="Detail" asp-action="DetailsCompetition" asp-route-id="@item.ID">
+                            <span class="ti-list"></span>
+                        </a>
+                        <a class="btn btn-danger" title="Delete" asp-action="DeleteCompetition" asp-route-id="@item.ID">
+                            <span class="ti-trash"></span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary disabled" title="Edit" asp-action="EditCompetition" asp-route-id="@item.ID">
+                            <span class="ti-pencil"></span>
+                        </a>
+                        <a class="btn btn-warning" title="Detail" asp-action="DetailsCompetition" asp-route-id="@item.ID">
+                            <span class="ti-list"></span>
+                        </a>
+                        <a class="btn btn-danger disabled" title="Delete" asp-action="DeleteCompetition" asp-route-id="@item.ID">
+                            <span class="ti-trash"></span>
+                        </a>
+                    }
+
                 </td>
             </tr>
         }

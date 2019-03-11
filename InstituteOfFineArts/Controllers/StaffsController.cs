@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace InstituteOfFineArts.Controllers
 {
@@ -22,7 +23,7 @@ namespace InstituteOfFineArts.Controllers
         {
             _userManager = userManager;
             _context = context;
-            
+
         }
         // GET: Competitions
         public IActionResult Index()
@@ -30,7 +31,7 @@ namespace InstituteOfFineArts.Controllers
             UpdateStatus();
             ViewData["CompetitionCount"] = _context.Competition.ToList().Count;
             ViewData["PostCount"] = _context.Post.ToList().Count;
-            ViewData["MarkCount"] = _context.Competition.Where(c=>c.Status == CompetitonStatus.Examining).ToList().Count;
+            ViewData["MarkCount"] = _context.Competition.Where(c => c.Status == CompetitonStatus.Examining).ToList().Count;
 
             return View();
         }
@@ -38,7 +39,7 @@ namespace InstituteOfFineArts.Controllers
         public async Task<IActionResult> CompetitionList()
         {
             UpdateStatus();
-            var instituteOfFineArtsContext = _context.Competition.Include(c => c.User);
+            var instituteOfFineArtsContext = _context.Competition.Include(c => c.User).Where(a => a.Available == true).OrderByDescending(b=>b.CreatedAt);
             return View(await instituteOfFineArtsContext.ToListAsync());
         }
 
@@ -70,7 +71,7 @@ namespace InstituteOfFineArts.Controllers
         public async Task<IActionResult> CreateCompetition()
         {
             var staffList = await _userManager.GetUsersInRoleAsync("staff");
-            ViewData["UserID"] = new SelectList(staffList, "Id", "UserName");
+            ViewData["UserID"] = new SelectList(staffList.Where(a => a.Status == AccountStatus.Activate), "Id", "FullName");
             return View();
         }
 
@@ -84,26 +85,27 @@ namespace InstituteOfFineArts.Controllers
             if (ModelState.IsValid)
             {
                 EmailCofirm emailCofirm = new EmailCofirm();
-                if ( competition.StartDate < competition.EndDate)
+                if (competition.StartDate < competition.EndDate)
                 {
                     var user = _userManager.Users.SingleOrDefault(u => u.Id == competition.UserID);
                     competition.CreatedAt = DateTime.Now;
                     competition.UpdatedAt = DateTime.Now;
+                    competition.Available = true;
                     competition.AwardDate = competition.EndDate.AddDays(2);
                     competition.StartDate = competition.StartDate.Date;
                     CheckStatus(competition);
                     _context.Add(competition);
 
-                    emailCofirm.SendMail(user.Email,user.UserName, $"You are selected as a judge for a competition < a href = '{HtmlEncoder.Default.Encode("https://localhost:44312/Staffs/DetailsCompetition/" + competition.ID)}' > clicking here </ a >.");
+                    emailCofirm.SendMail(user.Email, user.UserName, $"You are selected as a judge for a competition < a href = '{HtmlEncoder.Default.Encode("https://localhost:44312/Staffs/DetailsCompetition/" + competition.ID)}' > clicking here </ a >.");
 
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(CompetitionList));
                 }
-                TempData["DateError"] = "Invalid start date & end date!";
+                TempData["Error"] = "Invalid start date & end date!";
             }
 
             var staffList = await _userManager.GetUsersInRoleAsync("staff");
-            ViewData["UserID"] = new SelectList(staffList, "Id", "UserName", competition.UserID);
+            ViewData["UserID"] = new SelectList(staffList, "Id", "FullName", competition.UserID);
             return View(competition);
         }
 
@@ -121,7 +123,7 @@ namespace InstituteOfFineArts.Controllers
                 return NotFound();
             }
             var staffList = await _userManager.GetUsersInRoleAsync("staff");
-            ViewData["UserID"] = new SelectList(staffList, "Id", "UserName", competition.UserID);
+            ViewData["UserID"] = new SelectList(staffList, "Id", "FullName", competition.UserID);
             return View(competition);
         }
 
@@ -161,7 +163,7 @@ namespace InstituteOfFineArts.Controllers
                 return RedirectToAction(nameof(CompetitionList));
             }
             var staffList = await _userManager.GetUsersInRoleAsync("staff");
-            ViewData["UserID"] = new SelectList(staffList, "Id", "UserName", competition.UserID);
+            ViewData["UserID"] = new SelectList(staffList, "Id", "FullName", competition.UserID);
             return View(competition);
         }
 
@@ -208,7 +210,7 @@ namespace InstituteOfFineArts.Controllers
             }
 
             var accountDetail = await _context.Users.FindAsync(id);
-            var getRoleId = _context.UserRoles.Where(c=>c.UserId == id).Single().RoleId;
+            var getRoleId = _context.UserRoles.Where(c => c.UserId == id).Single().RoleId;
             ViewData["Role"] = _context.Roles.Find(getRoleId).Name;
             if (accountDetail == null)
             {
@@ -235,19 +237,29 @@ namespace InstituteOfFineArts.Controllers
             return View(post);
         }
 
-        public async Task<IActionResult> ExaminingCompetition()
+        public IActionResult ExaminingCompetition()
         {
             UpdateStatus();
-            var user = await GetCurrentUserAsync();
-            var myCompetitions = _context.Competition.Where(c => c.UserID == user.Id && c.Status == CompetitonStatus.Examining).ToList();
-            return View(myCompetitions);
+            var examiningCompetition = _context.Competition.Where(a => a.Available == true && a.Status == CompetitonStatus.Examining).ToList();
+            return View(examiningCompetition);
         }
 
-        public IActionResult ExaminingPost(int id)
+        public async Task<IActionResult> ExaminingPost(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var competition = _context.Competition.Find(id);
+            if (competition == null || competition.Available == false || competition.Status != CompetitonStatus.Examining)
+            {
+                return NotFound();
+            }
+
             var competitionPosts = _context.CompetitionPost.Where(c => c.CompetitionID == id).Include(c => c.Post).ThenInclude(c => c.User).ToList();
+            var user = await GetCurrentUserAsync();
             ViewData["PostList"] = competitionPosts;
-            return View();
+            return View(user);
         }
 
         public async Task<IActionResult> MarkPost(int? id)
@@ -256,7 +268,9 @@ namespace InstituteOfFineArts.Controllers
             {
                 return NotFound();
             }
-            ViewData["CompetitionId"] = _context.CompetitionPost.Where(c => c.PostID == id).Single().CompetitionID;
+
+            var competitionPost = _context.CompetitionPost.Where(c => c.PostID == id).Single();
+            ViewData["CompetitionId"] = competitionPost.CompetitionID;
             var post = await _context.Post
                 .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.ID == id);
@@ -274,12 +288,28 @@ namespace InstituteOfFineArts.Controllers
                 return NotFound();
             }
             var post = _context.CompetitionPost.Where(c => c.PostID == Id).Single();
-            post.PostPoint = PostPoint;
+            var user = await GetCurrentUserAsync();
+            if (post.StaffSubmit != null)
+            {
+                var obj = JsonConvert.DeserializeObject<List<StaffSubmitList>>(post.StaffSubmit);
+                obj.Add(new StaffSubmitList { StaffId = user.Id, Point = PostPoint });
+                var staffSubmit = JsonConvert.SerializeObject(obj, Formatting.Indented);
+                post.StaffSubmit = staffSubmit;
+            }
+            else
+            {
+                List<StaffSubmitList> obj = new List<StaffSubmitList>();
+                obj.Add(new StaffSubmitList { StaffId = user.Id, Point = PostPoint });
+                var staffSubmit = JsonConvert.SerializeObject(obj, Formatting.Indented);
+                post.StaffSubmit = staffSubmit;
+            }
+            post.PostPoint += PostPoint;
             _context.CompetitionPost.Update(post);
             await _context.SaveChangesAsync();
+
             return RedirectToAction("ExaminingPost/" + competitionId);
         }
-        
+
         public async Task<IActionResult> MyAccount()
         {
             var user = await GetCurrentUserAsync();
@@ -295,7 +325,7 @@ namespace InstituteOfFineArts.Controllers
         {
             if (competition.StartDate <= DateTime.Now.Date && DateTime.Now.Date <= competition.EndDate)
             {
-                competition.Status = CompetitonStatus.During;
+                competition.Status = CompetitonStatus.Ongoing;
             }
             else
             {
@@ -332,7 +362,7 @@ namespace InstituteOfFineArts.Controllers
             {
                 if (competitionList[i].StartDate <= DateTime.Now.Date && DateTime.Now.Date <= competitionList[i].EndDate)
                 {
-                    competitionList[i].Status = CompetitonStatus.During;
+                    competitionList[i].Status = CompetitonStatus.Ongoing;
                 }
                 else
                 {

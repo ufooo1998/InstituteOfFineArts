@@ -1,8 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Home";
-    var during = ViewData["During"] as List<Competition>;
-    var comingUp = ViewData["ComingUp"] as List<Competition>;
-    var last = ViewData["Ended"] as List<Competition>;
+    var onGoing = ViewData["Ongoing"] as Competition;
+    var comingUp = ViewData["ComingUp"] as Competition;
+    var last = ViewData["Ended"] as Competition;
 
 }
 <div class="pageheader-content row">
@@ -16,12 +16,12 @@
                     <div class="entry__content">
                         <span class="entry__category"><a href="#0">NOW</a></span>
 
-                        <h1><a asp-action="CompetitionDetails" asp-route-id="@during[0].ID">@during[0].CompetitionName</a></h1>
+                        <h1><a asp-action="CompetitionDetails" asp-route-id="@onGoing.ID">@onGoing.CompetitionName</a></h1>
 
                         <div class="entry__info">
                             <ul class="entry__meta">
-                                <li>@during[0].Decription</li>
-                                <li>@during[0].CompetitionPosts.Count() Post(s)</li>
+                                <li>@onGoing.Decription</li>
+                                <li>@onGoing.CompetitionPosts.Count() Post(s)</li>
                             </ul>
                         </div>
                     </div> <!-- end entry__content -->
@@ -36,11 +36,11 @@
                     <div class="entry__content">
                         <span class="entry__category"><a href="#0">Coming Soon</a></span>
 
-                        <h1><a asp-action="CompetitionDetails" asp-route-id="@comingUp[0].ID">@comingUp[0].CompetitionName</a></h1>
+                        <h1><a asp-action="CompetitionDetails" asp-route-id="@comingUp.ID">@comingUp.CompetitionName</a></h1>
 
                         <div class="entry__info">
                             <ul class="entry__meta">
-                                <li>@comingUp[0].Decription</li>
+                                <li>@comingUp.Decription</li>
                             </ul>
                         </div>
                     </div> <!-- end entry__content -->
@@ -52,7 +52,7 @@
                     <div class="entry__content">
                         <span class="entry__category"><a href="#0">Last Competition</a></span>
 
-                        <h1><a asp-action="CompetitionDetails" asp-route-id="@last[0].ID">@last[0].CompetitionName</a></h1>
+                        <h1><a asp-action="CompetitionDetails" asp-route-id="@last.ID">@last.CompetitionName</a></h1>
 
                         <div class="entry__info">
                             <a href="#0" class="entry__profile-pic">
@@ -60,8 +60,8 @@
                             </a>
 
                             <ul class="entry__meta">
-                                <li>@last[0].Decription</li>
-                                <li>@last[0].CompetitionPosts.Count() Post(s)</li>
+                                <li>@last.Decription</li>
+                                <li>@last.CompetitionPosts.Count() Post(s)</li>
                             </ul>
                         </div>
                     </div> <!-- end entry__content -->

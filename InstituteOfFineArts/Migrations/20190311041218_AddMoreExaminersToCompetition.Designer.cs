@@ -4,14 +4,16 @@ using InstituteOfFineArts.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InstituteOfFineArts.Migrations
 {
     [DbContext(typeof(InstituteOfFineArtsContext))]
-    partial class InstituteOfFineArtsContextModelSnapshot : ModelSnapshot
+    [Migration("20190311041218_AddMoreExaminersToCompetition")]
+    partial class AddMoreExaminersToCompetition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,6 +118,10 @@ namespace InstituteOfFineArts.Migrations
 
                     b.Property<string>("UserID");
 
+                    b.Property<string>("UserID2");
+
+                    b.Property<string>("UserID3");
+
                     b.HasKey("ID");
 
                     b.HasIndex("UserID");
@@ -138,10 +144,6 @@ namespace InstituteOfFineArts.Migrations
                     b.Property<int>("PostID");
 
                     b.Property<int>("PostPoint");
-
-                    b.Property<string>("StaffSubmit");
-
-                    b.Property<string>("StudentSubmit");
 
                     b.Property<DateTime>("SubmitDate");
 

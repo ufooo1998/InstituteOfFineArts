@@ -20,8 +20,8 @@
                     <tr>
                         <td width="30%">Post Name</td>
                         <td>@Model.PostName</td>
-                        <td hidden="hidden"><input name="Id" value="@Model.ID"/></td>
-                        <td hidden="hidden"><input name="CompetitionId" value="@ViewData["CompetitionId"]"/></td>
+                        <td hidden="hidden"><input name="Id" value="@Model.ID" /></td>
+                        <td hidden="hidden"><input name="CompetitionId" value="@ViewData["CompetitionId"]" /></td>
                     </tr>
                     <tr>
                         <td>Decription</td>
@@ -31,7 +31,7 @@
                         <td>Post Point</td>
                         <td>
                             <div class="form-group-sm" style="width:100px;">
-                                <input class="form-control" name="PostPoint" type="number" required />
+                                <input class="form-control" style="background-color: bisque;" name="PostPoint" type="number" min="0" max="100" required />
                             </div>
                         </td>
                     </tr>

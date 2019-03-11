@@ -1,6 +1,7 @@
 ﻿@model Competition
 @{
     ViewData["Title"] = "CompetitionDetails";
+    var winner = ViewData["Winner"] as CompetitionPost;
 }
 <style>
     .s-pageheader--home {
@@ -25,12 +26,7 @@
                     <dd>
                         @Html.DisplayFor(model => model.Decription)
                     </dd>
-                    <dt>
-                        Examiner
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.User.UserName)
-                    </dd>
+                    
                 </dl>
             </div>
 
@@ -56,31 +52,44 @@
                     </dd>
                 </dl>
             </div>
-            
-        </div>
-    <div>
-    
-    @{
-        if (Model.Status == CompetitonStatus.During)
-        {
-            if ((bool)ViewData["IsStudent"] && (bool)ViewData["IsValid"])
-            {
-                <div class="col-lg-12">
-                    <a asp-action="Attend" asp-route-id="@Model.ID" class="btn btn-success"><span class="ti-plus"></span></a>
-                </div>
-            }
-        }
 
-    }
-</div>
+        </div>
+        <div>
+
+            @{
+                if (Model.Status == CompetitonStatus.Ongoing)
+                {
+                    if ((bool)ViewData["IsStudent"] && (bool)ViewData["IsValid"])
+                    {
+                        <div class="col-lg-12">
+                            <a asp-action="Attend" asp-route-id="@Model.ID" class="btn btn-success"><span class="ti-plus"></span></a>
+                        </div>
+                    }
+                }
+
+            }
+        </div>
     </div>
 </div>
     </section> <!-- end s-pageheader -->
 
 <div class="content">
     <div class="container">
+        @if (Model.Status == CompetitonStatus.Ended)
+        {
+        <div>
+            <hr />
+            <h4><span class="ti-crown"></span> Winner Post - @winner.Post.PostName</h4>
+            <h5>by @winner.Post.User.FullName - @winner.PostPoint Points</h5>
+            <div style="margin: 10px auto; width:100%;">
+                <img class="img-responsive center-block" src="data:image/jpeg;base64,@Convert.ToBase64String(winner.Post.Image)" />
+            </div>
+        </div>
+        }
         
+
         <hr />
+        <h4>Posts List</h4>
         @foreach (var item in (List<CompetitionPost>)ViewData["Posts"])
         {
             <div style="margin: 10px auto; width:100%;">
@@ -102,6 +111,13 @@
                             <td>Author</td>
                             <td>@item.Post.User.UserName</td>
                         </tr>
+                        @if (item.Competition.Status == CompetitonStatus.Ended)
+                        {
+                            <tr>
+                                <td>Post Point</td>
+                                <td>@item.PostPoint</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
