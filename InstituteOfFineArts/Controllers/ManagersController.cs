@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InstituteOfFineArts.Areas.Identity.Data;
 using InstituteOfFineArts.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InstituteOfFineArts.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class ManagersController : Controller
     {
         private readonly InstituteOfFineArtsContext _context;

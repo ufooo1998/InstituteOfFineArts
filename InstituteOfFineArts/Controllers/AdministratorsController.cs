@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InstituteOfFineArts.Controllers
 {
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class AdministratorsController : Controller
     {
         private readonly InstituteOfFineArtsContext _context;
