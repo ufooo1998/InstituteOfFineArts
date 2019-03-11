@@ -1,12 +1,11 @@
 ﻿
 @{
     ViewData["Title"] = "AccountList";
+    ViewData["AccountList"] = "active";
 
     var staff = ViewData["StaffList"] as List<InstituteOfFineArts.Areas.Identity.Data.CustomUser>;
     var student = ViewData["StudentList"] as List<InstituteOfFineArts.Areas.Identity.Data.CustomUser>;
 }
-
-<h2>Index</h2>
 
 @{
     if (@TempData["Success"] != null)
@@ -17,18 +16,14 @@
         </div>
     }
 }
-
-<a asp-action="Create">Create Account</a>
-
-@ViewData["test"]
-
-
 <br />
 <h4>Staff Account List</h4>
 <table class="table table-hover">
     <thead>
         <tr>
-            <td width="500px">User Name</td>
+            <td width="350px">FullName</td>
+            <td width="350px">DOB</td>
+            <td width="350px">Gender</td>
             <td>Option</td>
         </tr>
     </thead>
@@ -36,14 +31,18 @@
         @{
             foreach (var item in staff)
             {
-                <tr>
-                    <td>@item.UserName</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
+        <tr>
+            <td>@item.FullName</td>
+            <td>@item.DateOfBirth</td>
+            <td>@item.Gender</td>
+            <td>
+                <a class="btn btn-warning" title="Detail" asp-action="Details" asp-route-id="@item.Id">
+                    <span class="ti-list"></span>
+                </a>
+                
+
+            </td>
+        </tr>
             }
         }
     </tbody>
@@ -54,7 +53,9 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <td width="500px">User Name</td>
+            <td width="350px">FullName</td>
+            <td width="350px">DOB</td>
+            <td width="350px">Gender</td>
             <td>Option</td>
         </tr>
     </thead>
@@ -63,11 +64,16 @@
             foreach (var item in student)
             {
                 <tr>
-                    <td>@item.UserName</td>
+                    <td>@item.FullName</td>
+                    <td>@item.DateOfBirth</td>
+                    <td>@item.Gender</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                        <a class="btn btn-warning" title="Detail" asp-action="Details" asp-route-id="@item.Id">
+                            <span class="ti-list"></span>
+                        </a>
+
+
                     </td>
                 </tr>
             }

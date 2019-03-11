@@ -28,7 +28,9 @@
 
     <link rel="shortcut icon" href="https://study.com/favicon.ico?v=2" />
 
-
+   
+        
+    
 </head>
 <body>
     <div class="wrapper">
@@ -40,16 +42,23 @@
                     </a>
                 </div>
                 <ul class="nav">
-                    <li class="@ViewData["Index"]">
-                        <a asp-controller="Managers" asp-action="Index">
-                            <i class="ti-panel"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
+                    
                     <li class="@ViewData["AccountList"]">
                         <a asp-controller="Managers" asp-action="AccountList">
                             <i class="ti-view-list-alt"></i>
                             <p>Account List</p>
+                        </a>
+                    </li>
+                    <li class="@ViewData["CompetitionList"]">
+                        <a asp-controller="Managers" asp-action="CompetitionList">
+                            <i class="ti-view-list-alt"></i>
+                            <p>Competition List</p>
+                        </a>
+                    </li>
+                    <li class="@ViewData["MyAccount"]">
+                        <a asp-controller="Managers" asp-action="MyAccount">
+                            <i class="ti-view-list-alt"></i>
+                            <p>My Account</p>
                         </a>
                     </li>
                 </ul>

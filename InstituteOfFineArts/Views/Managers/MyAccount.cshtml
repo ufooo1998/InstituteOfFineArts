@@ -1,0 +1,50 @@
+﻿@model InstituteOfFineArts.Areas.Identity.Data.CustomUser
+@{
+    ViewData["Title"] = "My Account";
+    ViewData["MyAccount"] = "active";
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close" style="right: -6px;">&times;</a>
+        <strong>Successed!</strong> @TempData["Success"]
+    </div>
+}
+
+<div class="container-fluid well" style="font-size: 18px">
+    <div class="row">
+        <b>MY INFORMATION</b>
+        <hr />
+        
+        <div class="col-lg-6">
+            <dl>
+                <dt>Full Name:</dt>
+                <dd>@Model.FullName</dd>
+
+                <dt>Account Name:</dt>
+                <dd>@Model.UserName</dd>
+
+                <dt>Email:</dt>
+                <dd>@Model.Email</dd>
+
+                <dt>Address:</dt>
+                <dd>@Model.Address</dd>
+            </dl>
+        </div>
+
+        <div class="col-lg-6">
+            <dl>
+                <dt>Phone Number:</dt>
+                <dd>@Model.PhoneNumber</dd>
+
+                <dt>Date of Birth:</dt>
+                <dd>@Html.DisplayFor(model => model.DateOfBirth)</dd>
+
+                <dt>Gender:</dt>
+                <dd>@Model.Gender</dd>
+            </dl>
+        </div>
+    </div>
+   
+</div>
+
